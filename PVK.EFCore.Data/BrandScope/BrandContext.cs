@@ -26,7 +26,7 @@ namespace PVK.EFCore.Data.BrandScope
                 {
                     entity.HasKey(e => e.GuidBrandId);
 
-                    entity.ToTable("tblbrands");
+                    entity.ToTable("tblbrand");
 
                     entity.Property(e => e.GuidBrandId)
                     .HasColumnName("Guid_BrandId")
@@ -35,7 +35,13 @@ namespace PVK.EFCore.Data.BrandScope
 
                     entity.Property(e => e.BrandName)
                     .HasColumnName("BrandName")
-                    .HasColumnType("string");
+                    .HasColumnType("string")
+                    .IsRequired(false); ;
+
+                    entity.Property(e => e.DateInactive)
+                    .HasColumnName("Date_Inactive")
+                    .HasColumnType("datetime")
+                    .IsRequired(false); 
                 });
         }
     }

@@ -6,6 +6,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PVK.Application.Services\PVK.Application.Services.csproj" />
+    <ProjectReference Include="..\PVK.DTO\PVK.DTO.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Model\" />
   </ItemGroup>
 
 

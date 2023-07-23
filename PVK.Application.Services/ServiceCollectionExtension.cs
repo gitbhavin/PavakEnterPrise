@@ -15,8 +15,8 @@ namespace PVK.Application.Services
 #endif
         public static void AddInternalServices(this IServiceCollection services)
         {
-            services.AddSingleton<IBrandServices,BrandServices>();
-            services.AddSingleton<IBrandProcessor, BrandProcessor>();
+            services.AddTransient<IBrandServices,BrandServices>();
+            services.AddTransient<IBrandProcessor, BrandProcessor>();
         }
 
         public static IServiceCollection AddSqlDataBaseConnector(this IServiceCollection services,string connection)

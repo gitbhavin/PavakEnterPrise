@@ -6,6 +6,6 @@ namespace PVK.EFCore.Data.BaseScope
 {
     public class BaseEntity
     {
-        public DateTime DateInactive { get; set; }
+        public DateTime? DateInactive { get; set; }
     }
 }

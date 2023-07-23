@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
 using PVK.Application.Services;
 
 namespace PavakEnterPrise
@@ -44,7 +45,7 @@ namespace PavakEnterPrise
 
             this.RegisterServices(services);
 
-            // services.AddCors(o => o.AddDefaultPolicy(b => b.AllowAnyOrigin()));
+           
 
             services.AddResponseCaching();
             services.AddMemoryCache();
@@ -57,9 +58,13 @@ namespace PavakEnterPrise
                     x.MultipartBodyLengthLimit = int.MaxValue;
                 });
 
-            //services.AddMvc();
-            //services.AddMvcCore();
-            services.AddControllers();
+            services.AddMvc();
+            // services.AddMvcCore();
+            services.AddControllers()
+                .AddNewtonsoftJson(options =>
+                 {
+                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                 });
             services.AddSwaggerGen(
                 c =>
                 {
@@ -77,11 +82,11 @@ namespace PavakEnterPrise
                     });
                 });
 
-         
+             services.AddCors(o => o.AddDefaultPolicy(b => b.AllowAnyOrigin()));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,IHostApplicationLifetime lifetime)
         {
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();

@@ -35,5 +35,10 @@ namespace PavakEnterPrise.Controllers
             })
             .ToArray();
         }
+        //[HttpPost("AddTestData")]
+        //public async Task<string> AddTestData()
+        //{
+
+        //}
     }
 }
