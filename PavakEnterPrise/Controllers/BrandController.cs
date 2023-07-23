@@ -18,7 +18,7 @@ namespace PVK.API.Controllers
         {
             this._service = brandServices;
         }
-        [HttpGet]
+        [HttpGet("GetAllBrands")]
         public async Task<BrandResponse> GetAllBrands()
         {
             return await _service.GetAllBrands();
