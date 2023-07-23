@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PVK.DTO\PVK.DTO.csproj" />
+    <ProjectReference Include="..\PVK.EFCore.Data\PVK.EFCore.Data.csproj" />
   </ItemGroup>
 
 </Project>

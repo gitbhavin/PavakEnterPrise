@@ -26,7 +26,7 @@ namespace PVK.EFCore.Data.BrandScope
                 {
                     entity.HasKey(e => e.GuidBrandId);
 
-                    entity.ToTable("tblbrand");
+                    entity.ToTable("tbl_Brand");
 
                     entity.Property(e => e.GuidBrandId)
                     .HasColumnName("Guid_BrandId")
@@ -34,7 +34,7 @@ namespace PVK.EFCore.Data.BrandScope
                     .IsRequired(true);
 
                     entity.Property(e => e.BrandName)
-                    .HasColumnName("BrandName")
+                    .HasColumnName("Brand_Name")
                     .HasColumnType("string")
                     .IsRequired(false); ;
 

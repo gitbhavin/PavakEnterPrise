@@ -1,4 +1,5 @@
 ﻿using PVK.DTO.Brand;
+using PVK.EFCore.Data.BrandScope;
 using PVK.Interfaces.Services.Brand;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,12 @@ namespace PVK.Application.Services.Brand
         public BrandServices(IBrandProcessor brandProcessor)
         {
             this._brandProcessor = brandProcessor;
+        }
+
+        public async Task<BrandResponse> addnewbrand(TblBrand addbranddata)
+        {
+
+            return await _brandProcessor.addnewbrand(addbranddata);
         }
 
         public async Task<BrandResponse> GetAllBrands()
