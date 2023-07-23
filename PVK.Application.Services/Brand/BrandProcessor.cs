@@ -18,6 +18,46 @@ namespace PVK.Application.Services.Brand
             this._brandContext = brandContext;
         }
 
+        public async Task<BrandResponse> addnewbrand(TblBrand addbranddata)
+        {
+            BrandResponse response = new BrandResponse();
+            try
+            {
+                var brandname = _brandContext.TblBrands.Where(b => b.BrandName == addbranddata.BrandName).FirstOrDefault();
+                if(brandname == null)
+                {
+                    var brand = await _brandContext.TblBrands.AddAsync(addbranddata);
+                    var result = await _brandContext.SaveChangesAsync();
+                    if (result > 0)
+                    {
+                        response.Status = true;
+                        response.Message = "data save successfully";
+
+
+                    }
+                    else
+                    {
+                        response.Status = false;
+                        response.Message = "data already added";
+                    }
+                }
+                else
+                {
+                    response.Status = false;
+                    response.Message = "data already added";
+                }
+                return response;
+            }
+            catch (Exception ex)
+            {
+
+                response.Message = ex.Message;
+                response.Status = false;
+
+                return response;
+            }
+        }
+
         public async Task<BrandResponse> GetAllBrands()
         {
             BrandResponse response = new BrandResponse();

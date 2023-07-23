@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PVK.DTO.Brand;
 using PVK.Interfaces.Services.Brand;
+using PVK.EFCore.Data.BrandScope;
 
 namespace PVK.API.Controllers
 {
@@ -22,6 +23,13 @@ namespace PVK.API.Controllers
         public async Task<BrandResponse> GetAllBrands()
         {
             return await _service.GetAllBrands();
+        }
+
+        [HttpPost("Addnewbrand")]
+        public async Task<BrandResponse> addnewbrand(TblBrand tblBrand)
+        {
+
+            return await _service.addnewbrand(tblBrand);
         }
     }
 }
