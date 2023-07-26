@@ -16,7 +16,7 @@ namespace PVK.Application.Services.Brand
             this._brandProcessor = brandProcessor;
         }
 
-        public async Task<BrandResponse> addnewbrand(TblBrand addbranddata)
+        public async Task<BrandResponse> addnewbrand(Addbranddata addbranddata)
         {
 
             return await _brandProcessor.addnewbrand(addbranddata);
@@ -25,6 +25,16 @@ namespace PVK.Application.Services.Brand
         public async Task<BrandResponse> GetAllBrands()
         {
             return await _brandProcessor.GetAllBrands();
+        }
+
+        public async Task<BrandResponse> RemoveBrand(deletebrand tblBrand)
+        {
+            return await _brandProcessor.RemoveBrand(tblBrand);
+        }
+
+        public async Task<BrandResponse> UpdateBrand(updatebrand tblBrand)
+        {
+            return await _brandProcessor.UpdateBrand(tblBrand);
         }
     }
 }
