@@ -26,10 +26,19 @@ namespace PVK.API.Controllers
         }
 
         [HttpPost("Addnewbrand")]
-        public async Task<BrandResponse> addnewbrand(TblBrand tblBrand)
+        public async Task<BrandResponse> addnewbrand(Addbranddata tblBrand)
         {
-
             return await _service.addnewbrand(tblBrand);
+        }
+        [HttpPost("Deletebrand")]
+        public async Task<BrandResponse> deletebrand(deletebrand tblBrand)
+        {
+            return await _service.RemoveBrand(tblBrand);
+        }
+        [HttpPost("Updatebrand")]
+        public async Task<BrandResponse> UpdateBrand(updatebrand tblBrand)
+        {
+            return await _service.UpdateBrand(tblBrand);
         }
     }
 }

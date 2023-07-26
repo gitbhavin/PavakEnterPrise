@@ -11,6 +11,10 @@ namespace PVK.Interfaces.Services.Brand
     {
         Task<BrandResponse> GetAllBrands();
 
-        Task<BrandResponse> addnewbrand(TblBrand addbranddata);
+        Task<BrandResponse> addnewbrand(Addbranddata addbranddata);
+
+        Task<BrandResponse> RemoveBrand(deletebrand tblBrand);
+
+        Task<BrandResponse> UpdateBrand(updatebrand tblBrand);
     }
 }
