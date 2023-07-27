@@ -24,15 +24,15 @@ namespace PVK.Application.Services.Brand
             try
             {
 
-                var brandname = _brandContext.TblBrands.Where(b => b.BrandName == addbranddata.BrandName).FirstOrDefault();
+                var brandname = _brandContext.TblBrands.Where(x=>x.BrandName==addbranddata.BrandName).FirstOrDefault();
                 if (brandname == null)
                 {
-                    var guid = Guid.NewGuid();
+                   
                     var brand = new TblBrand()
                     {
-                        GuidBrandId = guid.ToString(),
+                        GuidBrandId = Guid.NewGuid().ToString(),
                         BrandName = addbranddata.BrandName,
-                        DateInactive = null
+                        Date_Inactive = null
                     };                   
                    
                      await _brandContext.TblBrands.AddAsync(brand);
@@ -73,7 +73,7 @@ namespace PVK.Application.Services.Brand
 
             try
             {
-                var result = await _brandContext.TblBrands.Where(x => x.DateInactive == null).ToListAsync();
+                var result = await _brandContext.TblBrands.Where(x => x.Date_Inactive == null).ToListAsync();
 
                 if (result != null)
                 {
