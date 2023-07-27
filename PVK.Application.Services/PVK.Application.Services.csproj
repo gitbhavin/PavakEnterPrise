@@ -13,6 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\PVK.EFCore.Data\PVK.EFCore.Data.csproj" />
     <ProjectReference Include="..\PVK.Interfaces\PVK.Interfaces.csproj" />
+    <ProjectReference Include="..\PVK.QueryHandlers\PVK.QueryHandlers.csproj" />
   </ItemGroup>
 
 </Project>

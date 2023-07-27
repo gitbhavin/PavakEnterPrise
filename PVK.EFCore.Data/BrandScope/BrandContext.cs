@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using PVK.EFCore.Data.UserScope;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -16,9 +17,10 @@ namespace PVK.EFCore.Data.BrandScope
         {
 
         }
-
+                                                                                                                                                                                                                                                                                                                                                                                                                    
         public virtual DbSet<TblBrand> TblBrands { get; set; }
 
+      
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<TblBrand>(
@@ -38,11 +40,13 @@ namespace PVK.EFCore.Data.BrandScope
                     .HasColumnType("string")
                     .IsRequired(false); ;
 
-                    entity.Property(e => e.DateInactive)
+                    entity.Property(e => e.Date_Inactive)
                     .HasColumnName("Date_Inactive")
                     .HasColumnType("datetime")
                     .IsRequired(false); 
                 });
+
+          
         }
     }
 }
