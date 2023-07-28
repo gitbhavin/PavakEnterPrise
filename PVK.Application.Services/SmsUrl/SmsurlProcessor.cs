@@ -33,7 +33,7 @@ namespace PVK.Application.Services.SmsUrl
                     {
                         GuidSMSURL = guid.ToString(),
                         Url = addsmsurldata.Url,
-                        DateInactive = null    //Why need to add dateInactive
+                        DateInactive = null   
                     };
 
                     await _smsurlContext.TblSmsurls.AddAsync(sms);

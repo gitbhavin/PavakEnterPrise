@@ -34,6 +34,7 @@ namespace PVK.API.Controllers
         {
             return await _Services.RemoveSmsurl(smsurl);
         }
+        //Update URl
         [HttpPost("UpdateSmsurl")]
         public async Task<SmsurlResponse> UpdateSmsurl(updateSmsurl smsurl)
         {
