@@ -1,8 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using PVK.Application.Services.Brand;
+using PVK.Application.Services.SmsUrl;
 using PVK.EFCore.Data.BrandScope;
+using PVK.EFCore.Data.SmsUrlScope;
 using PVK.Interfaces.Services.Brand;
+using PVK.Interfaces.Services.SmsUrl;
 
 namespace PVK.Application.Services
 {
@@ -17,11 +20,15 @@ namespace PVK.Application.Services
         {
             services.AddTransient<IBrandServices,BrandServices>();
             services.AddTransient<IBrandProcessor, BrandProcessor>();
+            services.AddTransient<ISmsurlServices, SmsurlServices>();
+            services.AddTransient<ISmsurlProcessor, SmsurlProcessor>();
         }
 
         public static IServiceCollection AddSqlDataBaseConnector(this IServiceCollection services,string connection)
         {
             services.AddDbContext<BrandContext>(options => options.UseSqlServer(connection).EnableDetailedErrors(EnableDetailedErrors));
+            services.AddDbContext<SmsurlContext>(options => options.UseSqlServer(connection).EnableDetailedErrors(EnableDetailedErrors));
+
             return services;
         }
     }
