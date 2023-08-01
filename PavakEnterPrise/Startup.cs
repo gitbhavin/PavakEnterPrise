@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -12,9 +14,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using PVK.Application.Services;
+
 
 namespace PavakEnterPrise
 {
@@ -65,6 +69,9 @@ namespace PavakEnterPrise
                  {
                      options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                  });
+
+
+            PVK.Application.Services.ServiceCollectionExtension.AddInternalServices(services, Configuration);
             services.AddSwaggerGen(
                 c =>
                 {
@@ -81,8 +88,23 @@ namespace PavakEnterPrise
                         },
                     });
                 });
-
-             services.AddCors(o => o.AddDefaultPolicy(b => b.AllowAnyOrigin()));
+            var secret = Configuration.GetSection("BearerTokens:Key").Value;
+            var key = Encoding.ASCII.GetBytes(secret);
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
+            services.AddCors(o => o.AddDefaultPolicy(b => b.AllowAnyOrigin()));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -121,7 +143,7 @@ namespace PavakEnterPrise
         private void RegisterServices(IServiceCollection services)
         {
             services.AddSqlDataBaseConnector(this.Configuration.GetConnectionString("MyConnectionString"));
-            services.AddInternalServices();
+            services.AddInternalServices(this.Configuration);
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IConfiguration>(Configuration);
