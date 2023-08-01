@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using PVK.Application.Services.Account;
 using PVK.Application.Services.Brand;
 using PVK.Application.Services.SMSTemplate;
 using PVK.Application.Services.SmsUrl;
@@ -21,6 +22,8 @@ namespace PVK.Application.Services
 #endif
         public static void AddInternalServices(this IServiceCollection services)
         {
+            services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IAccountProcessor, AccountProcessor>();
             services.AddTransient<IBrandServices,BrandServices>();
             services.AddTransient<IBrandProcessor, BrandProcessor>();
             services.AddTransient<ISmsurlServices, SmsurlServices>();
