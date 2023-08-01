@@ -7,6 +7,7 @@ using PVK.Application.Services.SmsUrl;
 using PVK.EFCore.Data.BrandScope;
 using PVK.EFCore.Data.SMSTemplate;
 using PVK.EFCore.Data.SmsUrlScope;
+using PVK.Interfaces.Services.Account;
 using PVK.Interfaces.Services.Brand;
 using PVK.Interfaces.Services.SMSTemplate;
 using PVK.Interfaces.Services.SmsUrl;

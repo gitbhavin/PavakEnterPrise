@@ -51,7 +51,7 @@ namespace PVK.EFCore.Data.SMSTemplate
                     .HasColumnType("string")
                     .IsRequired(false);
 
-                    entity.Property(e => e.DateInactive)
+                    entity.Property(e => e.Date_Inactive)
                     .HasColumnName("Date_Inactive")
                     .HasColumnType("datetime")
                     .IsRequired(false);

@@ -70,7 +70,7 @@ namespace PVK.Application.Services.SMSTemplate
             SmsTemplateResponse response = new SmsTemplateResponse();
             try
             {
-                var result = await _smsTemplateContext.TblSmsTemplates.Where(a => a.DateInactive == null).ToListAsync();
+                var result = await _smsTemplateContext.TblSmsTemplates.Where(a => a.Date_Inactive == null).ToListAsync();
                 if(result != null)
                 {
                     foreach(var item in result)

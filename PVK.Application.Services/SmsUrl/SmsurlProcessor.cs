@@ -33,7 +33,7 @@ namespace PVK.Application.Services.SmsUrl
                     {
                         GuidSMSURL = guid.ToString(),
                         Url = addsmsurldata.Url,
-                        DateInactive = null   
+                        Date_Inactive = null   
                     };
 
                     await _smsurlContext.TblSmsurls.AddAsync(sms);
@@ -71,7 +71,7 @@ namespace PVK.Application.Services.SmsUrl
             SmsurlResponse response = new SmsurlResponse();
             try
             {
-                var result = await _smsurlContext.TblSmsurls.Where(e => e.DateInactive == null).ToListAsync();
+                var result = await _smsurlContext.TblSmsurls.Where(e => e.Date_Inactive == null).ToListAsync();
                 if(result != null)
                 {
                     foreach(var item in result)
