@@ -65,7 +65,7 @@ namespace PVK.Application.Services.SMSTemplate
                 return response;
             }
         }
-
+        // Get All SmsTemplate List
         public async Task<SmsTemplateResponse> GetAllSmsTemplate()
         {
             SmsTemplateResponse response = new SmsTemplateResponse();
