@@ -19,6 +19,7 @@ namespace PVK.Application.Services.SMSTemplate
         {
             this._smsTemplateContext = smsTemplateContext;
         }
+        //Add New SmsTemplate
         public async Task<SmsTemplateResponse> AddNewSmsTemplate(AddSmsTemplateData addSmsTemplateData)
         {
             SmsTemplateResponse response = new SmsTemplateResponse();
