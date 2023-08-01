@@ -1,5 +1,6 @@
 ﻿using PVK.DTO.Account;
 using PVK.DTO.BaseResponse;
+using PVK.EFCore.Data.UserScope;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,5 +11,7 @@ namespace PVK.Interfaces.Services.Account
     public interface IAccountProcessor
     {
         Task<BaseResponse> UserResgistration(UserRequest userRequest);
+
+        Task<TblUser> GetUserByEmailOrMobile(LoginRequest userInputModel);
     }
 }
