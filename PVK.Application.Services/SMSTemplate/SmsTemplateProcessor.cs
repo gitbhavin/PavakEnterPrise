@@ -104,7 +104,7 @@ namespace PVK.Application.Services.SMSTemplate
 
             }
         }
-
+        //Remove SmsTemplate
         public async Task<SmsTemplateResponse> RemoveSmsTemplate(DeleteSmsTemplate tblSmsTemplate)
         {
             SmsTemplateResponse response = new SmsTemplateResponse();
