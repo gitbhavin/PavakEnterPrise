@@ -16,6 +16,8 @@ namespace PVK.EFCore.Data.UserScope
 
         }
         public virtual DbSet<TblUser> TblUsers { get; set; }
+
+     
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<TblUser>(
@@ -90,6 +92,8 @@ namespace PVK.EFCore.Data.UserScope
                   .IsRequired(false);
 
                 });
+
+          
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using PVK.DTO.Account;
+﻿using Microsoft.EntityFrameworkCore;
+using PVK.DTO.Account;
 using PVK.DTO.BaseResponse;
 using PVK.EFCore.Data.UserScope;
 using PVK.Interfaces.Services.Account;
@@ -18,6 +19,13 @@ namespace PVK.Application.Services.Account
         {
             this._usercontext = userContext;
         }
+
+        public async Task<TblUser> GetUserByEmailOrMobile(LoginRequest loginRequest)
+        {
+            return await _usercontext.TblUsers.FirstOrDefaultAsync(x => x.UserName == loginRequest.UserName);
+
+        }
+
         public async Task<BaseResponse> UserResgistration(UserRequest userRequest)
         {
             BaseResponse response = new BaseResponse();

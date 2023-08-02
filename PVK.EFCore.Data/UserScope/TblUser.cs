@@ -1,4 +1,5 @@
 ﻿using PVK.EFCore.Data.BaseScope;
+using PVK.EFCore.Data.TokenScope;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -17,5 +18,7 @@ namespace PVK.EFCore.Data.UserScope
         public string Password { get; set; }
         public string IMG_URL { get; set; }
         public string  Gender { get; set; }
+
+       
     }
 }
