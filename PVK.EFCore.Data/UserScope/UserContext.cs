@@ -88,7 +88,7 @@ namespace PVK.EFCore.Data.UserScope
 
                     entity.Property(e => e.Uid_Modified)
                   .HasColumnName("Uid_Modified")
-                  .HasColumnType("datetime")
+                  .HasColumnType("string")
                   .IsRequired(false);
 
                 });

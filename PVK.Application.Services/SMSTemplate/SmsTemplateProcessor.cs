@@ -35,7 +35,11 @@ namespace PVK.Application.Services.SMSTemplate
                         Name=addSmsTemplateData.Name,
                         Code=addSmsTemplateData.Code,
                         Subject=addSmsTemplateData.Subject,
-                        Body=addSmsTemplateData.Body
+                        Body=addSmsTemplateData.Body,
+                        Date_Created=DateTime.Now,
+                        Uid_Created=addSmsTemplateData.UserId,
+                        Date_Inactive=null
+
                     };
 
                     await _smsTemplateContext.TblSmsTemplates.AddAsync(smstemp);
@@ -82,6 +86,7 @@ namespace PVK.Application.Services.SMSTemplate
                         data.Code = item.Code;
                         data.Subject = item.Subject;
                         data.Body = item.Body;
+                        
 
                         response.smsTemplateDatas.Add(data);
                     }
@@ -112,10 +117,11 @@ namespace PVK.Application.Services.SMSTemplate
             {
                 var smstemplate = new TblSmsTemplate()
                 {
-                    GuidSMSTemplateId = tblSmsTemplate.GuidSMSTemplateId
+                    Date_Inactive=DateTime.Now,
+                    Uid_Modified=tblSmsTemplate.UserId
                 };
 
-                _smsTemplateContext.TblSmsTemplates.Remove(smstemplate);
+                _smsTemplateContext.TblSmsTemplates.Update(smstemplate);
                 var result = await _smsTemplateContext.SaveChangesAsync();
                 if (result > 0)
                 {
@@ -149,7 +155,10 @@ namespace PVK.Application.Services.SMSTemplate
                     Name = tblSmsTemplate.Name,
                     Code=tblSmsTemplate.Code,
                     Subject=tblSmsTemplate.Subject,
-                    Body=tblSmsTemplate.Body
+                    Body=tblSmsTemplate.Body,
+                    Uid_Modified=tblSmsTemplate.UserId,
+                    Date_Modified=DateTime.Now
+
                 };
 
                 _smsTemplateContext.Update(smstemplate);

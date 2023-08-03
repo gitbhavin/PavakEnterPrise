@@ -27,7 +27,7 @@ namespace PVK.API.Controllers
         }
 
         [HttpPost("CreateAccount")]
-        public async Task<BaseResponse> Createnewaccount(UserRequest userRequest)
+        public async Task<BaseResponsedata> Createnewaccount(UserRequest userRequest)
         {
             return await _accountservice.UserResgistration(userRequest);
         }

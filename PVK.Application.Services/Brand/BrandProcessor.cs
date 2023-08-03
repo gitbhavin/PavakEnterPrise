@@ -32,7 +32,11 @@ namespace PVK.Application.Services.Brand
                     {
                         GuidBrandId = Guid.NewGuid().ToString(),
                         BrandName = addbranddata.BrandName,
-                        Date_Inactive = null
+                        Date_Inactive = null,
+                        Date_Created=DateTime.Now,
+                        Uid_Created=addbranddata.UserId
+
+                        
                     };                   
                    
                      await _brandContext.TblBrands.AddAsync(brand);
@@ -111,10 +115,11 @@ namespace PVK.Application.Services.Brand
             {
                 var brand = new TblBrand()
                 {
-                    GuidBrandId = tblBrand.GuidBrandId,
+                    Date_Inactive=DateTime.Now,
+                    Uid_Modified=tblBrand.UserId
                   
                 };
-                _brandContext.TblBrands.Remove(brand);
+                _brandContext.TblBrands.Update(brand);
                var result= await _brandContext.SaveChangesAsync();
                 if (result > 0)
                 {
@@ -148,7 +153,9 @@ namespace PVK.Application.Services.Brand
                 var brand = new TblBrand()
                 {
                     GuidBrandId = tblBrand.GuidBrandId,
-                    BrandName = tblBrand.BrandName
+                    BrandName = tblBrand.BrandName,
+                    Date_Modified=DateTime.Now,
+                    Uid_Modified=tblBrand.UserId
                 };
 
                 _brandContext.TblBrands.Update(brand);

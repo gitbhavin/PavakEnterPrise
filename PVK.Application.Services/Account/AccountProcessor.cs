@@ -26,9 +26,9 @@ namespace PVK.Application.Services.Account
 
         }
 
-        public async Task<BaseResponse> UserResgistration(UserRequest userRequest)
+        public async Task<BaseResponsedata> UserResgistration(UserRequest userRequest)
         {
-            BaseResponse response = new BaseResponse();
+            BaseResponsedata response = new BaseResponsedata();
             try
             {
                 var user = _usercontext.TblUsers.FindAsync(userRequest.Email);

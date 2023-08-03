@@ -10,7 +10,7 @@ namespace PVK.Interfaces.Services.Account
 {
     public interface IAccountProcessor
     {
-        Task<BaseResponse> UserResgistration(UserRequest userRequest);
+        Task<BaseResponsedata> UserResgistration(UserRequest userRequest);
 
         Task<TblUser> GetUserByEmailOrMobile(LoginRequest userInputModel);
     }
