@@ -33,7 +33,9 @@ namespace PVK.Application.Services.SmsUrl
                     {
                         GuidSMSURL = guid.ToString(),
                         Url = addsmsurldata.Url,
-                        Date_Inactive = null   
+                        Uid_Created = addsmsurldata.UserId,
+                        Date_Inactive = null ,
+                        Date_Created=DateTime.Now
                     };
 
                     await _smsurlContext.TblSmsurls.AddAsync(sms);
@@ -110,9 +112,10 @@ namespace PVK.Application.Services.SmsUrl
 
                 var sms = new TblSmsurl()
                 {
-                    GuidSMSURL = tblSmsurl.GuidSMSURL
+                    Date_Inactive=DateTime.Now,
+                    Uid_Modified=tblSmsurl.UserId
                 };
-                _smsurlContext.TblSmsurls.Remove(sms);
+                _smsurlContext.TblSmsurls.Update(sms);
                 var result = await _smsurlContext.SaveChangesAsync();
                 if (result > 0)
                 {
@@ -143,7 +146,9 @@ namespace PVK.Application.Services.SmsUrl
                 var sms = new TblSmsurl()
                 {
                     GuidSMSURL = tblSmsurl.GuidSMSURL,
-                    Url = tblSmsurl.Url
+                    Url = tblSmsurl.Url,
+                    Uid_Modified=tblSmsurl.UserId,
+                    Date_Modified = DateTime.Now
 
                 };
 

@@ -75,7 +75,7 @@ namespace PVK.EFCore.Data.TokenScope
 
                  entity.Property(e => e.Uid_Modified)
                .HasColumnName("Uid_Modified")
-               .HasColumnType("datetime")
+               .HasColumnType("string")
                .IsRequired(false);
 
              });

@@ -9,7 +9,7 @@ namespace PVK.EFCore.Data.BaseScope
         public DateTime? Date_Inactive { get; set; }
         public DateTime? Date_Created { get; set; }
         public DateTime? Date_Modified { get; set; }
-        public DateTime? Uid_Modified { get; set; }
+        public string Uid_Modified { get; set; }
         public string Uid_Created { get; set; }
     }
 }

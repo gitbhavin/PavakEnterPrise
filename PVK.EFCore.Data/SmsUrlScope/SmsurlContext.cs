@@ -40,6 +40,26 @@ namespace PVK.EFCore.Data.SmsUrlScope
                     .HasColumnName("Date_Inactive")
                     .HasColumnType("datetime")
                     .IsRequired(false);
+
+                    entity.Property(e => e.Date_Created)
+                    .HasColumnName("Date_Created")
+                    .HasColumnType("datetime")
+                    .IsRequired(false);
+
+                    entity.Property(e => e.Date_Modified)
+                    .HasColumnName("Date_Modified")
+                    .HasColumnType("datetime")
+                    .IsRequired(false);
+
+                    entity.Property(e => e.Uid_Modified)
+                    .HasColumnName("Uid_Modified")
+                    .HasColumnType("string")
+                    .IsRequired(false);
+
+                    entity.Property(e => e.Uid_Created)
+                    .HasColumnName("Uid_Created")
+                    .HasColumnType("string")
+                    .IsRequired(false);
                 });
         }
     }
