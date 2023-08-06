@@ -16,7 +16,7 @@ namespace PVK.Application.Services.Brand
             this._brandProcessor = brandProcessor;
         }
 
-        public async Task<BrandResponse> addnewbrand(Addbranddata addbranddata)
+        public async Task<BrandResponse> Addnewbrand(Addbranddata addbranddata)
         {
 
             return await _brandProcessor.addnewbrand(addbranddata);
