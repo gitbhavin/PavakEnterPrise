@@ -21,10 +21,10 @@ namespace PVK.Application.Services.Token
   public  class TokenProcessor : ITokenProcessor
     {
         private readonly ILogger _logger;
-        private ITokenProcessor _tokenProcessor;
+        private readonly ITokenProcessor _tokenProcessor;
         private readonly BearerTokensOptions _configuration;
         private readonly ISecurityService _securityService;
-        private TokenContext _tokenContext;
+        private readonly TokenContext _tokenContext;
 
         public TokenProcessor(TokenContext tokenContext, ILoggerFactory loggerFactory, BearerTokensOptions configuration, ISecurityService securityService)
         {
@@ -44,7 +44,7 @@ namespace PVK.Application.Services.Token
             //await _modelDbContext.SaveChangesAsync();
             response.AccessToken = accessToken;
             response.RefreshToken = refreshToken;
-            response.userid = user.Guid_Userid;
+            response.Userid = user.Guid_Userid;
             response.Status = true;
             return response;
         }
