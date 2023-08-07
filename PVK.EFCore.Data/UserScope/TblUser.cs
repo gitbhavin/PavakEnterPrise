@@ -18,7 +18,10 @@ namespace PVK.EFCore.Data.UserScope
         public string Password { get; set; }
         public string IMG_URL { get; set; }
         public string  Gender { get; set; }
+        
+        public string Source { get; set; }
 
-       
+
+
     }
 }

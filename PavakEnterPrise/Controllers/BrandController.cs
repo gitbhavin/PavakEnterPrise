@@ -35,5 +35,11 @@ namespace PVK.API.Controllers
         {
             return await _service.UpdateBrand(tblBrand);
         }
+
+        [HttpPost("GetBrandbyId")]
+        public async Task<BrandResponse> GetBrandbyId(string guidBrandId)
+        {
+            return await _service.GetBrandbyId(guidBrandId);
+        }
     }
 }

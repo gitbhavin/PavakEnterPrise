@@ -71,6 +71,10 @@ namespace PVK.EFCore.Data.UserScope
               .HasColumnName("Gender")
               .HasColumnType("string");
 
+                    entity.Property(e => e.Source)
+                    .HasColumnName("Source")
+                    .HasColumnType("string");
+
                     entity.Property(e => e.Date_Inactive)
                     .HasColumnName("Date_Inactive")
                     .HasColumnType("datetime")
@@ -90,6 +94,11 @@ namespace PVK.EFCore.Data.UserScope
                   .HasColumnName("Uid_Modified")
                   .HasColumnType("string")
                   .IsRequired(false);
+
+                    entity.Property(e => e.Uid_Created)
+                 .HasColumnName("Uid_Created")
+                 .HasColumnType("string")
+                 .IsRequired(false);
 
                 });
 

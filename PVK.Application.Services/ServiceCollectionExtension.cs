@@ -17,6 +17,15 @@ using TokenContext = PVK.EFCore.Data.TokenScope.TokenContext;
 using Microsoft.Extensions.Configuration;
 using PVK.Interfaces.Services.SMSTemplate;
 using PVK.Interfaces.Services.SmsUrl;
+using PVK.Interfaces.Services.Role;
+using PVK.Application.Services.Role;
+using PVK.EFCore.Data.RoleScope;
+using PVK.Interfaces.Services.UserRole;
+using PVK.Application.Services.UserRole;
+using PVK.EFCore.Data.UserRoleScope;
+using PVK.Interfaces.Services.Category;
+using PVK.Application.Services.Category;
+using PVK.EFCore.Data.CategoryScope;
 
 namespace PVK.Application.Services
 {
@@ -43,19 +52,28 @@ namespace PVK.Application.Services
             services.AddTransient<ISmsurlProcessor, SmsurlProcessor>();
             services.AddTransient<ISmsTemplateServices, SmsTemplateServices>();
             services.AddTransient<ISmsTemplateProcessor, SmsTemplateProcessor>();
+            services.AddTransient<IRoleService, RoleService>();
+            services.AddTransient<IRoleProcessor, RoleProcessor>();
+            services.AddScoped<IUserRoleService, UserRoleService>();
+            services.AddScoped<IUserRoleProcessor, UserRoleProcessor>();
+            services.AddScoped<ICategoryProcessor, CategoryProcessor>();
+            services.AddScoped<ICategoryService, CategoryService>();
         }
 
         public static IServiceCollection AddSqlDataBaseConnector(this IServiceCollection services,string connection)
         {
-            services.AddDbContext<UserContext>(options => options.UseSqlServer(connection).EnableDetailedErrors(EnableDetailedErrors), ServiceLifetime.Transient);
+            services.AddDbContext<UserContext>(options => options.UseSqlServer(connection).EnableDetailedErrors(EnableDetailedErrors), ServiceLifetime.Scoped);
 
-            services.AddDbContext<BrandContext>(options => options.UseSqlServer(connection).EnableDetailedErrors(EnableDetailedErrors), ServiceLifetime.Transient);
+            services.AddDbContext<BrandContext>(options => options.UseSqlServer(connection).EnableDetailedErrors(EnableDetailedErrors));
 
             services.AddDbContext<TokenContext>(option => option.UseSqlServer(connection).EnableDetailedErrors(EnableDetailedErrors));          
             services.AddDbContext<BrandContext>(options => options.UseSqlServer(connection).EnableDetailedErrors(EnableDetailedErrors));
             services.AddDbContext<SmsurlContext>(options => options.UseSqlServer(connection).EnableDetailedErrors(EnableDetailedErrors));
             services.AddDbContext<SmsTemplateContext>(options => options.UseSqlServer(connection).EnableDetailedErrors(EnableDetailedErrors));
+            services.AddDbContext<RoleContext>(options => options.UseSqlServer(connection).EnableDetailedErrors(EnableDetailedErrors));
+            services.AddDbContext<UserRoleContext>(options => options.UseSqlServer(connection).EnableDetailedErrors(EnableDetailedErrors));
 
+            services.AddDbContext<CategoryContext>(options => options.UseSqlServer(connection).EnableDetailedErrors(EnableDetailedErrors));
 
             return services;
         }
