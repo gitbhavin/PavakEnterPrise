@@ -108,6 +108,42 @@ namespace PVK.Application.Services.Brand
             }
         }
 
+        public async Task<BrandResponse> GetBrandbyId(string GuidBrandId)
+        {
+            BrandResponse response = new BrandResponse();
+
+            try
+            {
+                var result = await _brandContext.TblBrands.Where(x => x.Date_Inactive == null && x.GuidBrandId==GuidBrandId).ToListAsync();
+
+                if (result != null)
+                {
+                    foreach (var item in result)
+                    {
+                        BrandData data = new BrandData();
+                        data.GuidBrandId = item.GuidBrandId;
+                        data.BrandName = item.BrandName;
+                        response.Brands.Add(data);
+                    }
+                    response.Message = "Success!";
+                    response.Status = true;
+                }
+                else
+                {
+                    response.Message = "No Record Found!";
+                    response.Status = true;
+                }
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+                response.Status = false;
+
+                return response;
+            }
+        }
+
         public  async Task<BrandResponse> RemoveBrand(deletebrand tblBrand)
         {
             BrandResponse response = new BrandResponse();
@@ -115,6 +151,7 @@ namespace PVK.Application.Services.Brand
             {
                 var brand = new TblBrand()
                 {
+                    GuidBrandId=tblBrand.GuidBrandId,
                     Date_Inactive=DateTime.Now,
                     Uid_Modified=tblBrand.UserId
                   

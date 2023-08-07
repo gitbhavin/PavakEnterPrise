@@ -27,6 +27,11 @@ namespace PVK.Application.Services.Brand
             return await _brandProcessor.GetAllBrands();
         }
 
+        public async Task<BrandResponse> GetBrandbyId(string GuidBrandId)
+        {
+            return await _brandProcessor.GetBrandbyId(GuidBrandId);
+        }
+
         public async Task<BrandResponse> RemoveBrand(deletebrand tblBrand)
         {
             return await _brandProcessor.RemoveBrand(tblBrand);
