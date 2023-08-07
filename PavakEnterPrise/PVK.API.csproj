@@ -6,7 +6,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PVK.Application.Services\PVK.Application.Services.csproj" />
-    <ProjectReference Include="..\PVK.DTO\PVK.DTO.csproj" />
+    <ProjectReference Include="..\PVK.Interfaces\PVK.Interfaces.csproj" />
+    <ProjectReference Include="..\PVK.QueryHandlers\PVK.QueryHandlers.csproj" />
   </ItemGroup>
 
   <ItemGroup>
