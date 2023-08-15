@@ -24,6 +24,11 @@ namespace PVK.Application.Services.Account
             return await _accountProcessor.GetUserByEmailOrMobile(loginRequest);
         }
 
+        public async Task<TblUser> GetUserInfo(string userid)
+        {
+            return await _accountProcessor.GetUserInfo(userid);
+        }
+
         public async Task<BaseResponsedata> UserResgistration(UserRequest userRequest)
         {
             return await _accountProcessor.UserResgistration(userRequest);

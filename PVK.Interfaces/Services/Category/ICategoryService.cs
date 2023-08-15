@@ -1,4 +1,5 @@
-﻿using PVK.DTO.Category;
+﻿using Microsoft.AspNetCore.Http;
+using PVK.DTO.Category;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -19,6 +20,8 @@ namespace PVK.Interfaces.Services.Category
         Task<CategoryResponse> GetCategoryById(string Guid_CategoryId);
 
         Task<CategoryResponse> GetSubCategoryById(string Guid_CategoryId);
+
+        Task<CategoryResponse> UploadImage(IFormFile file, string categoryid);
 
     }
 }

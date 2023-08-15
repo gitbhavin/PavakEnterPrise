@@ -18,7 +18,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using PVK.Application.Services;
-
+using PVK.QueryHandlers.Helper;
 
 namespace PavakEnterPrise
 {
@@ -104,7 +104,16 @@ namespace PavakEnterPrise
                     ValidateAudience = false
                 };
             });
-            services.AddCors(o => o.AddDefaultPolicy(b => b.AllowAnyOrigin()));
+            services.AddCors(options =>
+            {
+                options.AddPolicy(myAllowSpecificOrigins,
+                    builder => builder.AllowAnyOrigin()
+                                       .AllowAnyMethod()
+                                       .AllowAnyHeader()
+                    );
+            });
+            services.Configure<ImageSettings>(Configuration.GetSection("ImageSettings"));
+            // services.AddCors(o => o.AddDefaultPolicy(b => b.AllowAnyOrigin()));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -129,11 +138,11 @@ namespace PavakEnterPrise
             }
 
             app.UseHttpsRedirection();
-
+            app.UseStaticFiles();
             app.UseRouting();
 
             app.UseAuthorization();
-
+            app.UseCors(myAllowSpecificOrigins);
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
