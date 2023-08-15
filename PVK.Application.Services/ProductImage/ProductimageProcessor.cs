@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using PVK.DTO.ProductImage;
 using PVK.EFCore.Data.ProductImageScope;
 using PVK.EFCore.Data.ProductScope;
@@ -19,10 +20,10 @@ namespace PVK.Application.Services.ProductImage
         private readonly ProductImageContext _productimageContext;
         private readonly ProductContext _productContext;
         private readonly ImageSettings _imageSettings;
-        public ProductimageProcessor(ProductImageContext productImageContext, ProductContext productContext, ImageSettings imageSettings)
+        public ProductimageProcessor(ProductImageContext productImageContext, ProductContext productContext, IOptions<ImageSettings> imageSettings)
         {
             this._productimageContext = productImageContext;
-            this._imageSettings = imageSettings;
+            this._imageSettings = imageSettings.Value;
             this._productContext = productContext;
         }
 
