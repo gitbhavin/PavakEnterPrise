@@ -31,7 +31,11 @@ namespace PVK.API.Controllers
         {
             return await _accountservice.UserResgistration(userRequest);
         }
-
+        [HttpPost("GetUserInfo")]
+        public async Task<TblUser> GetUserInfo(string userid)
+        {
+            return await _accountservice.GetUserInfo(userid);
+        }
 
         [HttpPost("login")]
         public async Task<AccountResponse> Login(LoginRequest loginRequest)

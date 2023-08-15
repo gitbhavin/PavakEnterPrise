@@ -32,6 +32,12 @@ namespace PVK.Application.Services.Account
 
         }
 
+        public async Task<TblUser> GetUserInfo(string userid)
+        {
+            return await _usercontext.TblUsers.FirstOrDefaultAsync(x => x.Guid_Userid == userid);
+
+        }
+
         public async Task<BaseResponsedata> UserResgistration(UserRequest userRequest)
         {
             BaseResponsedata response = new BaseResponsedata();

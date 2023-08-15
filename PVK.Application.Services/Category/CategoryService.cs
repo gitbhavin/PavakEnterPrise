@@ -1,4 +1,5 @@
-﻿using PVK.DTO.Category;
+﻿using Microsoft.AspNetCore.Http;
+using PVK.DTO.Category;
 using PVK.Interfaces.Services.Category;
 using System;
 using System.Collections.Generic;
@@ -45,6 +46,11 @@ namespace PVK.Application.Services.Category
         public async Task<CategoryResponse> UpdateCategory(UpdateCategory updateCategory)
         {
             return await _categoryProcessor.UpdateCategory(updateCategory);
+        }
+
+        public async Task<CategoryResponse> UploadImage(IFormFile file, string categoryid)
+        {
+            return await _categoryProcessor.UploadImage(file, categoryid);
         }
     }
 }

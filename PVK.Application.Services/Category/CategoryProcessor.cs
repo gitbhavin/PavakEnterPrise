@@ -1,9 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using PVK.DTO.Category;
 using PVK.EFCore.Data.CategoryScope;
 using PVK.Interfaces.Services.Category;
+using PVK.QueryHandlers.Helper;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,10 +18,13 @@ namespace PVK.Application.Services.Category
     public class CategoryProcessor : ICategoryProcessor
     {
         private readonly CategoryContext _categoryContext;
-
-        public CategoryProcessor(CategoryContext categoryContext)
+        private static IWebHostEnvironment _environment;
+        private readonly ImageSettings _imageSettings;
+        public CategoryProcessor(CategoryContext categoryContext, IWebHostEnvironment environment, IOptions<ImageSettings> imageSettings)
         {
             this._categoryContext = categoryContext;
+           _environment = environment;
+            this._imageSettings = imageSettings.Value;
         }
 
         public async Task<CategoryResponse> AddNewCategory(Addnewcategory addnewcategory)
@@ -25,7 +33,7 @@ namespace PVK.Application.Services.Category
             try
             {
 
-                var categoryname = _categoryContext.TblCategories.Where(x => x.CategoryName == addnewcategory.CategoryName && x.Date_Inactive==null).FirstOrDefault();
+                var categoryname = _categoryContext.TblCategories.Where(x => x.CategoryName == addnewcategory.CategoryName && x.Date_Inactive == null).FirstOrDefault();
                 if (categoryname == null)
                 {
 
@@ -33,10 +41,10 @@ namespace PVK.Application.Services.Category
                     {
                         Guid_CategoryId = Guid.NewGuid().ToString(),
                         CategoryName = addnewcategory.CategoryName,
-                        Guid_SubCategoryId=addnewcategory.Guid_SubCategoryId,
-                        Guid_SubSubCategoryId=addnewcategory.Guid_SubSubCategoryId,
-                        Description=addnewcategory.Description,
-                        IsPreorder=addnewcategory.IsPreorder,
+                        Guid_SubCategoryId = addnewcategory.Guid_SubCategoryId,
+                        Guid_SubSubCategoryId = addnewcategory.Guid_SubSubCategoryId,
+                        Description = addnewcategory.Description,
+                        IsPreorder = addnewcategory.IsPreorder,
                         Date_Inactive = null,
 
                         Date_Created = DateTime.Now,
@@ -82,26 +90,33 @@ namespace PVK.Application.Services.Category
             CategoryResponse response = new CategoryResponse();
             try
             {
-                var category = new TblCategory()
-                {
-                    Guid_CategoryId = deleteCategory.Guid_CategoryId,
-                    Date_Inactive = DateTime.Now,
-                    Uid_Modified = deleteCategory.UserId
 
-                };
-                _categoryContext.TblCategories.Update(category);
-                var result = await _categoryContext.SaveChangesAsync();
-                if (result > 0)
+                var category = _categoryContext.TblCategories.Where(x => x.Guid_CategoryId == deleteCategory.Guid_CategoryId).FirstOrDefault();
+
+                if (category != null)
                 {
-                    response.Status = true;
-                    response.Message = "category deleted successfully";
 
 
-                }
-                else
-                {
-                    response.Status = false;
-                    response.Message = "data already added";
+
+
+                    category.Date_Inactive = DateTime.Now;
+                    category.Uid_Modified = deleteCategory.UserId;
+
+
+                    _categoryContext.TblCategories.Update(category);
+                    var result = await _categoryContext.SaveChangesAsync();
+                    if (result > 0)
+                    {
+                        response.Status = true;
+                        response.Message = "category deleted successfully";
+
+
+                    }
+                    else
+                    {
+                        response.Status = false;
+                        response.Message = "data already added";
+                    }
                 }
                 return response;
 
@@ -127,8 +142,8 @@ namespace PVK.Application.Services.Category
                 {
                     foreach (var item in result)
                     {
-                        var subcategory=  _categoryContext.TblCategories.Where(a => a.Guid_CategoryId == item.Guid_SubCategoryId).FirstOrDefault();
-                        var subsubcategory=  _categoryContext.TblCategories.Where(a => a.Guid_CategoryId == item.Guid_SubSubCategoryId).FirstOrDefault();
+                        var subcategory = _categoryContext.TblCategories.Where(a => a.Guid_CategoryId == item.Guid_SubCategoryId).FirstOrDefault();
+                        var subsubcategory = _categoryContext.TblCategories.Where(a => a.Guid_CategoryId == item.Guid_SubSubCategoryId).FirstOrDefault();
 
                         CategoryData data = new CategoryData();
                         data.Guid_CategoryId = item.Guid_CategoryId;
@@ -138,9 +153,9 @@ namespace PVK.Application.Services.Category
                         data.IsPreorder = item.IsPreorder;
                         data.Guid_SubCategoryId = item.Guid_SubCategoryId;
                         data.Guid_SubSubCategoryId = item.Guid_SubSubCategoryId;
-                        if(subcategory != null)
-                        data.Category = subcategory.CategoryName;
-                        if (subsubcategory!=null)
+                        if (subcategory != null)
+                            data.Category = subcategory.CategoryName;
+                        if (subsubcategory != null)
                             data.SubCategory = subsubcategory.CategoryName;
 
                         response.categoryDatas.Add(data);
@@ -224,7 +239,7 @@ namespace PVK.Application.Services.Category
                 {
                     foreach (var item in result)
                     {
-                       
+
                         CategoryData data = new CategoryData();
                         data.Guid_CategoryId = item.Guid_CategoryId;
                         data.CategoryName = item.CategoryName;
@@ -233,7 +248,7 @@ namespace PVK.Application.Services.Category
                         data.IsPreorder = item.IsPreorder;
                         data.Guid_SubCategoryId = item.Guid_SubCategoryId;
                         data.Guid_SubSubCategoryId = item.Guid_SubSubCategoryId;
-                       
+
                         response.categoryDatas.Add(data);
                     }
                     response.Message = "Success!";
@@ -263,10 +278,10 @@ namespace PVK.Application.Services.Category
                 var category = new TblCategory()
                 {
                     Guid_CategoryId = updateCategory.Guid_CategoryId,
-                   Guid_SubCategoryId=updateCategory.Guid_SubCategoryId,
-                   Guid_SubSubCategoryId=updateCategory.Guid_SubSubCategoryId,
-                   CategoryName=updateCategory.CategoryName,
-                   Description=updateCategory.Description,
+                    Guid_SubCategoryId = updateCategory.Guid_SubCategoryId,
+                    Guid_SubSubCategoryId = updateCategory.Guid_SubSubCategoryId,
+                    CategoryName = updateCategory.CategoryName,
+                    Description = updateCategory.Description,
                     Date_Modified = DateTime.Now,
                     Uid_Modified = updateCategory.UserId
                 };
@@ -290,6 +305,63 @@ namespace PVK.Application.Services.Category
 
                 return response;
             }
+        }
+
+        public async Task<CategoryResponse> UploadImage(IFormFile file, string categoryid)
+        {
+            CategoryResponse response = new CategoryResponse();
+            try
+            {
+
+                if (file == null || file.Length == 0)
+                {
+                    response.Status = false;
+                    response.Message = "";
+                    return response;
+                }
+
+                string uploadsFolder = Path.Combine(_imageSettings.ImageFolderPath);
+                string uniqueFileName = RandomNumber(1000, 50000) + "_" + file.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(fileStream);
+                }
+                var category = _categoryContext.TblCategories.Where(x => x.Guid_CategoryId == categoryid).FirstOrDefault();
+
+                if (category != null)
+                {
+                    category.CategoryImg = uniqueFileName;
+                    _categoryContext.TblCategories.Update(category);
+                    var result = await _categoryContext.SaveChangesAsync();
+                    if (result > 0)
+                    {
+                        response.Status = true;
+                        response.Message = "Image uploaded successfully.";
+                    }
+                    else
+                    {
+                        response.Status = false;
+                        response.Message = "data already added";
+                    }
+                }
+               
+                return response;
+                
+            }
+            catch (Exception ex)
+            {
+                response.Status = false;
+                response.Message = ex.ToString();
+            }
+            return response;
+        }
+
+        public int RandomNumber(int min, int max)
+        {
+            Random random = new Random();
+            return random.Next(min, max);
         }
     }
 }

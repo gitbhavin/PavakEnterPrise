@@ -4,6 +4,7 @@ using PVK.DTO.Category;
 using PVK.Interfaces.Services.Category;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -51,5 +52,12 @@ namespace PVK.API.Controllers
         {
             return await _service.GetSubCategoryById(guidcategoryid);
         }
+        [HttpPost("UploadcategoryImage")]
+        public async Task<CategoryResponse> uploadcategoryimage(IFormFile file, string categoryid)
+        {
+            return await _service.UploadImage(file, categoryid);
+        }
+
+
     }
 }
