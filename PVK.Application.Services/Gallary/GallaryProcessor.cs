@@ -104,7 +104,7 @@ namespace PVK.Application.Services.Gallary
             }
       
         }
-
+        //Remove Gallary Data
         public async Task<GallaryResponse> RemoveGallary(DeleteGallary tblgallary)
         {
             GallaryResponse response = new GallaryResponse();
