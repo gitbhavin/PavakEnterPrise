@@ -21,6 +21,18 @@ using System.Configuration;
 using Microsoft.Extensions.Configuration;
 using PVK.Interfaces.Services.SMSTemplate;
 using PVK.Interfaces.Services.SmsUrl;
+using PVK.Interfaces.Services.Gallary;
+using PVK.Application.Services.Gallary;
+using PVK.EFCore.Data.GallaryScope;
+using PVK.Interfaces.Services.GallaryVideo;
+using PVK.Application.Services.GallaryVideo;
+using PVK.EFCore.Data.GallaryVideoScope;
+using PVK.Interfaces.Services.ContactUs;
+using PVK.Application.Services.ContactUs;
+using PVK.EFCore.Data.ContactUsScope;
+using PVK.Interfaces.Services.Address;
+using PVK.Application.Services.Address;
+using PVK.EFCore.Data.AddressScope;
 
 namespace PVK.Application.Services
 {
@@ -47,6 +59,14 @@ namespace PVK.Application.Services
             services.AddTransient<ISmsurlProcessor, SmsurlProcessor>();
             services.AddTransient<ISmsTemplateServices, SmsTemplateServices>();
             services.AddTransient<ISmsTemplateProcessor, SmsTemplateProcessor>();
+            services.AddTransient<IGallaryServices, GallaryServices>();
+            services.AddTransient<IGallaryProcessor, GallaryProcessor>();
+            services.AddScoped<IGallaryVideoServices, GallaryVideoServices>();
+            services.AddScoped<IGallaryVideoProcessor, GallaryVideoProcessor>();
+            services.AddTransient<IContactUsServices, ContactUsServices>();
+            services.AddTransient<IContactUsProcessor, ContactUsProcessor>();
+            services.AddTransient<IAddressServices, AddressServices>();
+            services.AddTransient<IAddressProcessor, AddressProcessor>();
         }
 
         public static IServiceCollection AddSqlDataBaseConnector(this IServiceCollection services,string connection)
@@ -59,7 +79,10 @@ namespace PVK.Application.Services
             services.AddDbContext<BrandContext>(options => options.UseSqlServer(connection).EnableDetailedErrors(EnableDetailedErrors));
             services.AddDbContext<SmsurlContext>(options => options.UseSqlServer(connection).EnableDetailedErrors(EnableDetailedErrors));
             services.AddDbContext<SmsTemplateContext>(options => options.UseSqlServer(connection).EnableDetailedErrors(EnableDetailedErrors));
-
+            services.AddDbContext<GallaryContext>(options => options.UseSqlServer(connection).EnableDetailedErrors(EnableDetailedErrors));
+            services.AddDbContext<GallaryVideoContext>(options => options.UseSqlServer(connection).EnableDetailedErrors(EnableDetailedErrors));
+            services.AddDbContext<ContactUsContext>(options => options.UseSqlServer(connection).EnableDetailedErrors(EnableDetailedErrors));
+            services.AddDbContext<AddressContext>(options => options.UseSqlServer(connection).EnableDetailedErrors(EnableDetailedErrors));
 
             return services;
         }

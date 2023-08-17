@@ -36,7 +36,6 @@ namespace PVK.Application.Services.Brand
                         Date_Created=DateTime.Now,
                         Uid_Created=addbranddata.UserId
 
-                        
                     };                   
                    
                      await _brandContext.TblBrands.AddAsync(brand);
@@ -45,7 +44,6 @@ namespace PVK.Application.Services.Brand
                     {
                         response.Status = true;
                         response.Message = "data save successfully";
-
 
                     }
                     else
@@ -115,6 +113,7 @@ namespace PVK.Application.Services.Brand
             {
                 var brand = new TblBrand()
                 {
+                    GuidBrandId=tblBrand.GuidBrandId,
                     Date_Inactive=DateTime.Now,
                     Uid_Modified=tblBrand.UserId
                   

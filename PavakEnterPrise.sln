@@ -3,21 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30503.244
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PVK.API", "PavakEnterPrise\PVK.API.csproj", "{172319C7-05D8-4733-A618-A1561112318C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PVK.API", "PavakEnterPrise\PVK.API.csproj", "{172319C7-05D8-4733-A618-A1561112318C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PVK.BusinessLayer", "PVK.BusinessLayer", "{DC901A8F-DD77-4EE7-8EBA-06F4EC6D5A5D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PVK.Interfaces", "PVK.Interfaces\PVK.Interfaces.csproj", "{B0F0879E-0E34-4701-BFA1-5436C0375E1E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PVK.Interfaces", "PVK.Interfaces\PVK.Interfaces.csproj", "{B0F0879E-0E34-4701-BFA1-5436C0375E1E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PVK.DTO", "PVK.DTO\PVK.DTO.csproj", "{401A4B7A-0A3E-4021-B899-E58B8522ABD9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PVK.DTO", "PVK.DTO\PVK.DTO.csproj", "{401A4B7A-0A3E-4021-B899-E58B8522ABD9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PVK.Infrastructure", "PVK.Infrastructure", "{D1EEBB9C-9E06-4BD8-9195-92AAB50AA415}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PVK.EFCore.Data", "PVK.EFCore.Data\PVK.EFCore.Data.csproj", "{C1BF5597-93EC-48C2-86CD-297CA996C5CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PVK.EFCore.Data", "PVK.EFCore.Data\PVK.EFCore.Data.csproj", "{C1BF5597-93EC-48C2-86CD-297CA996C5CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PVK.Application.Services", "PVK.Application.Services\PVK.Application.Services.csproj", "{6D9D992F-373B-4B62-A9BF-560698168A59}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PVK.Application.Services", "PVK.Application.Services\PVK.Application.Services.csproj", "{6D9D992F-373B-4B62-A9BF-560698168A59}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PVK.QueryHandlers", "PVK.QueryHandlers\PVK.QueryHandlers.csproj", "{DE5FF7F8-7500-4DEE-B81B-5D6629DAB2E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PVK.QueryHandlers", "PVK.QueryHandlers\PVK.QueryHandlers.csproj", "{DE5FF7F8-7500-4DEE-B81B-5D6629DAB2E6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
