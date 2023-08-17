@@ -75,7 +75,7 @@ namespace PVK.Application.Services.Brand
 
             try
             {
-                var result = await _brandContext.TblBrands.Where(x => x.Date_Inactive == null).ToListAsync();
+                var result = await _brandContext.TblBrands.Where(x => x.Date_Inactive == null).OrderByDescending(a => a.Date_Created).ToListAsync();
 
                 if (result != null)
                 {
@@ -106,32 +106,69 @@ namespace PVK.Application.Services.Brand
             }
         }
 
+        public async Task<BrandResponse> GetBrandbyId(string GuidBrandId)
+        {
+            BrandResponse response = new BrandResponse();
+
+            try
+            {
+                var result = await _brandContext.TblBrands.Where(x => x.Date_Inactive == null && x.GuidBrandId==GuidBrandId).ToListAsync();
+
+                if (result != null)
+                {
+                    foreach (var item in result)
+                    {
+                        BrandData data = new BrandData();
+                        data.GuidBrandId = item.GuidBrandId;
+                        data.BrandName = item.BrandName;
+                        response.Brands.Add(data);
+                    }
+                    response.Message = "Success!";
+                    response.Status = true;
+                }
+                else
+                {
+                    response.Message = "No Record Found!";
+                    response.Status = true;
+                }
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+                response.Status = false;
+
+                return response;
+            }
+        }
+
         public  async Task<BrandResponse> RemoveBrand(deletebrand tblBrand)
         {
             BrandResponse response = new BrandResponse();
             try
             {
-                var brand = new TblBrand()
+                var brand = _brandContext.TblBrands.Where(x => x.GuidBrandId == tblBrand.GuidBrandId).FirstOrDefault();
+                if (brand != null)
                 {
-                    GuidBrandId=tblBrand.GuidBrandId,
-                    Date_Inactive=DateTime.Now,
-                    Uid_Modified=tblBrand.UserId
-                  
-                };
-                _brandContext.TblBrands.Update(brand);
-               var result= await _brandContext.SaveChangesAsync();
-                if (result > 0)
-                {
-                    response.Status = true;
-                    response.Message = "data deleted successfully";
+                    brand.Date_Inactive = DateTime.Now;
+                    _brandContext.TblBrands.Update(brand);
+                    var result = await _brandContext.SaveChangesAsync();
+                    if (result > 0)
+                    {
+                        response.Status = true;
+                        response.Message = "data deleted successfully";
 
 
+                    }
+                    else
+                    {
+                        response.Status = false;
+                        response.Message = "data already added";
+                    }
                 }
-                else
-                {
-                    response.Status = false;
-                    response.Message = "data already added";
-                }
+
+               
+               
                 return response;
 
             }
@@ -149,6 +186,7 @@ namespace PVK.Application.Services.Brand
             BrandResponse response = new BrandResponse();
             try
             {
+
                 var brand = new TblBrand()
                 {
                     GuidBrandId = tblBrand.GuidBrandId,

@@ -16,5 +16,6 @@ namespace PVK.Interfaces.Services.Brand
         Task<BrandResponse> RemoveBrand(deletebrand tblBrand);
 
         Task<BrandResponse> UpdateBrand(updatebrand tblBrand);
+        Task<BrandResponse> GetBrandbyId(string GuidBrandId);
     }
 }

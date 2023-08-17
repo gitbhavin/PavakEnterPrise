@@ -13,5 +13,7 @@ namespace PVK.Interfaces.Services.Account
         Task<BaseResponsedata> UserResgistration(UserRequest userRequest);
 
         Task<TblUser> GetUserByEmailOrMobile(LoginRequest userInputModel);
+
+        Task<TblUser> GetUserInfo(string userid);
     }
 }

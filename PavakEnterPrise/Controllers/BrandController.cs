@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using PVK.DTO.Brand;
 using PVK.Interfaces.Services.Brand;
-using PVK.EFCore.Data.BrandScope;
 
 namespace PVK.API.Controllers
 {
@@ -14,7 +9,7 @@ namespace PVK.API.Controllers
     [ApiController]
     public class BrandController : ControllerBase
     {
-        private IBrandServices _service;
+        private readonly  IBrandServices _service;
         public BrandController(IBrandServices brandServices)
         {
             this._service = brandServices;
@@ -26,12 +21,12 @@ namespace PVK.API.Controllers
         }
 
         [HttpPost("Addnewbrand")]
-        public async Task<BrandResponse> addnewbrand(Addbranddata tblBrand)
+        public async Task<BrandResponse> Addnewbrand(Addbranddata tblBrand)
         {
-            return await _service.addnewbrand(tblBrand);
+            return await _service.Addnewbrand(tblBrand);
         }
         [HttpPost("Deletebrand")]
-        public async Task<BrandResponse> deletebrand(deletebrand tblBrand)
+        public async Task<BrandResponse> Deletebrand(deletebrand tblBrand)
         {
             return await _service.RemoveBrand(tblBrand);
         }
@@ -39,6 +34,12 @@ namespace PVK.API.Controllers
         public async Task<BrandResponse> UpdateBrand(updatebrand tblBrand)
         {
             return await _service.UpdateBrand(tblBrand);
+        }
+
+        [HttpPost("GetBrandbyId")]
+        public async Task<BrandResponse> GetBrandbyId(string guidBrandId)
+        {
+            return await _service.GetBrandbyId(guidBrandId);
         }
     }
 }
