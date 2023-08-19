@@ -52,16 +52,14 @@ namespace PVK.Application.Services.Product
                         Is_InSale = addnewproduct.Is_InSale,
                         Guid_BrandId=addnewproduct.Guid_BrandId,
                         Full_Description=addnewproduct.Full_Description,
-                        Price=addnewproduct.Price,
-                        Discount=addnewproduct.Discount,
-                        Available_Stock=addnewproduct.Available_Stock,
+                        Price=Convert.ToDecimal(addnewproduct.Price),
+                        Discount= Convert.ToDecimal(addnewproduct.Discount),
+                        Available_Stock= Convert.ToDecimal(addnewproduct.Available_Stock),
                         Thumbnail_Image_Url=addnewproduct.Thumbnail_Image_Url,
                         Date_Inactive = null,
 
                         Date_Created = DateTime.Now,
                         Uid_Created = addnewproduct.UserId
-
-
                     };
 
                     await _productContext.TblProducts.AddAsync(product);
@@ -164,9 +162,9 @@ namespace PVK.Application.Services.Product
                         data.Short_Description = item.Short_Description;
                         data.Full_Description = item.Full_Description;
                         data.Is_InSale = item.Is_InSale;
-                        data.Price = item.Price;
-                        data.Discount = item.Discount;
-                        data.Available_Stock = item.Available_Stock;
+                        data.Price = Convert.ToDecimal(item.Price);
+                        data.Discount = Convert.ToDecimal(item.Discount);
+                        data.Available_Stock = Convert.ToDecimal(item.Available_Stock);
                         data.Guid_BrandId = item.Guid_BrandId;
                         data.Thumbnail_Image_Url = item.Thumbnail_Image_Url;                       
 
@@ -404,9 +402,9 @@ namespace PVK.Application.Services.Product
                     Is_InSale = updateproduct.Is_InSale,
                     Guid_BrandId = updateproduct.Guid_BrandId,
                     Full_Description = updateproduct.Full_Description,
-                    Price = updateproduct.Price,
-                    Discount = updateproduct.Discount,
-                    Available_Stock = updateproduct.Available_Stock,
+                    Price = Convert.ToDecimal(updateproduct.Price),
+                    Discount = Convert.ToDecimal(updateproduct.Discount),
+                    Available_Stock = Convert.ToDecimal(updateproduct.Available_Stock),
                     Thumbnail_Image_Url = updateproduct.Thumbnail_Image_Url,
                     Date_Inactive = null,
 
