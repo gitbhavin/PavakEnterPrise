@@ -109,24 +109,32 @@ namespace PVK.Application.Services.SmsUrl
             SmsurlResponse response = new SmsurlResponse();
             try
             {
+                var resultsmsurl = _smsurlContext.TblSmsurls.Where(x => x.GuidSMSURL == tblSmsurl.GuidSMSURL).FirstOrDefault();
+                if(resultsmsurl != null)
+                {
+                    resultsmsurl.Date_Inactive = DateTime.Now;
+                    resultsmsurl.Uid_Modified = tblSmsurl.UserId;
 
-                var sms = new TblSmsurl()
-                {
-                    Date_Inactive=DateTime.Now,
-                    Uid_Modified=tblSmsurl.UserId
-                };
-                _smsurlContext.TblSmsurls.Update(sms);
-                var result = await _smsurlContext.SaveChangesAsync();
-                if (result > 0)
-                {
-                    response.Status = true;
-                    response.Message = "Data Deleted Successfully";
+                    _smsurlContext.TblSmsurls.Update(resultsmsurl);
+                    var result = await _smsurlContext.SaveChangesAsync();
+                    if (result > 0)
+                    {
+                        response.Status = true;
+                        response.Message = "Data Deleted Successfully";
+                    }
+                    else
+                    {
+                        response.Status = false;
+                        response.Message = "Data alredy added";
+                    }
+
                 }
                 else
                 {
                     response.Status = false;
-                    response.Message = "Data alredy added";
+                    response.Message = "Data not exist";
                 }
+
                 return response;
             }
             catch(Exception ex)

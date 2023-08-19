@@ -115,24 +115,31 @@ namespace PVK.Application.Services.SMSTemplate
             SmsTemplateResponse response = new SmsTemplateResponse();
             try
             {
-                var smstemplate = new TblSmsTemplate()
+                var resultsmstemp = _smsTemplateContext.TblSmsTemplates.Where(x => x.GuidSMSTemplateId == tblSmsTemplate.GuidSMSTemplateId).FirstOrDefault();
+                if(resultsmstemp != null)
                 {
-                    Date_Inactive=DateTime.Now,
-                    Uid_Modified=tblSmsTemplate.UserId
-                };
+                    resultsmstemp.Date_Inactive = DateTime.Now;
+                    resultsmstemp.Uid_Modified = tblSmsTemplate.UserId;
 
-                _smsTemplateContext.TblSmsTemplates.Update(smstemplate);
-                var result = await _smsTemplateContext.SaveChangesAsync();
-                if (result > 0)
-                {
-                    response.Status = true;
-                    response.Message = "Data Deleted Successfully";
+                    _smsTemplateContext.TblSmsTemplates.Update(resultsmstemp);
+                    var result = await _smsTemplateContext.SaveChangesAsync();
+                    if (result > 0)
+                    {
+                        response.Status = true;
+                        response.Message = "Data Deleted Successfully";
+                    }
+                    else
+                    {
+                        response.Status = false;
+                        response.Message = "Data alredy added";
+                    }
                 }
                 else
                 {
                     response.Status = false;
-                    response.Message = "Data alredy added";
+                    response.Message = "Data not exist";
                 }
+
                 return response;
             }
             catch (Exception ex)
