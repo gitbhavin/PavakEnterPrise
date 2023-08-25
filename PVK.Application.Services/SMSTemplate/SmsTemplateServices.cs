@@ -25,6 +25,11 @@ namespace PVK.Application.Services.SMSTemplate
             return await _smsTemplateProcessor.GetAllSmsTemplate();
         }
 
+        public async Task<SmsTemplateResponse> Getsmstemplatebyguid(string guidsmstemplateid)
+        {
+            return await _smsTemplateProcessor.Getsmstemplatebyguid(guidsmstemplateid);
+        }
+
         public async Task<SmsTemplateResponse> RemoveSmsTemplate(DeleteSmsTemplate tblSmsTemplate)
         {
             return await _smsTemplateProcessor.RemoveSmsTemplate(tblSmsTemplate);

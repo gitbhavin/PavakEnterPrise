@@ -11,6 +11,8 @@ namespace PVK.Interfaces.Services.Category
     {
         Task<CategoryResponse> GetAllCategory();
 
+        Task<CategoryResponse> categorylist();
+
         Task<CategoryResponse> AddNewCategory(Addnewcategory addnewcategory);
 
         Task<CategoryResponse> DeleteCategory(DeleteCategory Guid_CategoryId);

@@ -58,6 +58,12 @@ using PVK.EFCore.Data.PaymentScope;
 using PVK.Interfaces.Services.ProductImage;
 using PVK.Application.Services.ProductImage;
 using PVK.EFCore.Data.ProductImageScope;
+using PVK.Interfaces.Services.Address;
+using PVK.Application.Services.Address;
+using PVK.EFCore.Data.AddressScope;
+using PVK.Interfaces.Services.ContactUs;
+using PVK.Application.Services.ContactUs;
+using PVK.EFCore.Data.ContactUsScope;
 
 namespace PVK.Application.Services
 {
@@ -113,6 +119,13 @@ namespace PVK.Application.Services
 
             services.AddScoped<IProductimageProcessor, ProductimageProcessor>();
             services.AddScoped<IProductimageService, ProductimageService>();
+
+            services.AddScoped<IAddressProcessor, AddressProcessor>();
+            services.AddScoped<IAddressServices, AddressServices>();
+
+            services.AddScoped<IContactUsProcessor, ContactUsProcessor>();
+            services.AddScoped<IContactUsServices, ContactUsServices>();
+
         }
 
         public static IServiceCollection AddSqlDataBaseConnector(this IServiceCollection services,string connection)
@@ -139,6 +152,8 @@ namespace PVK.Application.Services
             services.AddDbContext<OrderStatusContext>(options => options.UseSqlServer(connection).EnableDetailedErrors(EnableDetailedErrors));
             services.AddDbContext<PaymentContext>(options => options.UseSqlServer(connection).EnableDetailedErrors(EnableDetailedErrors));
             services.AddDbContext<ProductImageContext>(options => options.UseSqlServer(connection).EnableDetailedErrors(EnableDetailedErrors));
+            services.AddDbContext<AddressContext>(options => options.UseSqlServer(connection).EnableDetailedErrors(EnableDetailedErrors));
+            services.AddDbContext<ContactUsContext>(options => options.UseSqlServer(connection).EnableDetailedErrors(EnableDetailedErrors));
 
             return services;
         }

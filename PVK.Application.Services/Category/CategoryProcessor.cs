@@ -225,7 +225,7 @@ namespace PVK.Application.Services.Category
         }
 
         public async Task<CategoryResponse> GetSubCategoryById(string Guid_CategoryId)
-        {
+        { 
             CategoryResponse response = new CategoryResponse();
 
             try
@@ -361,6 +361,48 @@ namespace PVK.Application.Services.Category
         {
             Random random = new Random();
             return random.Next(min, max);
+        }
+
+        public async Task<CategoryResponse> categorylist()
+        {
+            CategoryResponse response = new CategoryResponse();
+            try
+            {
+                var result = await _categoryContext.TblCategories.Where(x => x.Date_Inactive == null && (string.IsNullOrEmpty(x.Guid_SubCategoryId)) && (string.IsNullOrEmpty(x.Guid_SubSubCategoryId))).ToListAsync();
+
+                if (result != null)
+                {
+                    foreach (var item in result)
+                    {
+
+                        CategoryData data = new CategoryData();
+                        data.Guid_CategoryId = item.Guid_CategoryId;
+                        data.CategoryName = item.CategoryName;
+                        data.Description = item.Description;
+                        data.CategoryImg = item.CategoryImg;
+                        data.IsPreorder = item.IsPreorder;
+                        data.Guid_SubCategoryId = item.Guid_SubCategoryId;
+                        data.Guid_SubSubCategoryId = item.Guid_SubSubCategoryId;
+
+                        response.categoryDatas.Add(data);
+                    }
+                    response.Message = "Success!";
+                    response.Status = true;
+                }
+                else
+                {
+                    response.Message = "No Record Found!";
+                    response.Status = true;
+                }
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+                response.Status = false;
+
+                return response;
+            }
         }
     }
 }

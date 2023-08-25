@@ -47,6 +47,12 @@ namespace PVK.API.Controllers
             return await _service.GetCategoryById(guidcategoryid);
         }
 
+        [HttpGet("categorylist")]
+        public async Task<CategoryResponse> getcategorylist()
+        {
+            return await _service.categorylist();
+        }
+
         [HttpPost("Getsubcategorylist")]
         public async Task<CategoryResponse> Getsubcategorylist(string guidcategoryid)
         {

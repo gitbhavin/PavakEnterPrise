@@ -23,6 +23,11 @@ namespace PVK.Application.Services.Category
             
         }
 
+        public async Task<CategoryResponse> categorylist()
+        {
+            return await _categoryProcessor.categorylist();
+        }
+
         public async Task<CategoryResponse> DeleteCategory(DeleteCategory deleteCategory)
         {
             return await _categoryProcessor.DeleteCategory(deleteCategory);
