@@ -366,7 +366,6 @@ namespace PVK.Application.Services.Category
         public async Task<CategoryResponse> categorylist()
         {
             CategoryResponse response = new CategoryResponse();
-
             try
             {
                 var result = await _categoryContext.TblCategories.Where(x => x.Date_Inactive == null && (string.IsNullOrEmpty(x.Guid_SubCategoryId)) && (string.IsNullOrEmpty(x.Guid_SubSubCategoryId))).ToListAsync();
