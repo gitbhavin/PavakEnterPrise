@@ -40,10 +40,10 @@ namespace PVK.Application.Services.Product
                 var productname = _productContext.TblProducts.Where(x => x.ProductName == addnewproduct.ProductName && x.Date_Inactive == null).FirstOrDefault();
                 if (productname == null)
                 {
-
+                    var Guid_ProductId = Guid.NewGuid().ToString();
                     var product = new TblProduct()
                     {
-                        Guid_ProductId = Guid.NewGuid().ToString(),
+                        Guid_ProductId = Guid_ProductId,
                         Guid_CategoryId = addnewproduct.Guid_CategoryId,
                         ProductName = addnewproduct.ProductName,
                         Guid_SubCategoryId = addnewproduct.Guid_SubCategoryId,
@@ -66,6 +66,7 @@ namespace PVK.Application.Services.Product
                     var result = await _productContext.SaveChangesAsync();
                     if (result > 0)
                     {
+                        response.guid = Guid_ProductId;
                         response.Status = true;
                         response.Message = "data save successfully";
 
@@ -391,25 +392,27 @@ namespace PVK.Application.Services.Product
             ProductResponse response = new ProductResponse();
             try
             {
-                var product = new TblProduct()
+                var product = _productContext.TblProducts.Where(x => x.Guid_ProductId == updateproduct.Guid_ProductId).FirstOrDefault();
+                if (product != null)
                 {
-                    Guid_ProductId = updateproduct.Guid_ProductId,
-                    Guid_CategoryId = updateproduct.Guid_CategoryId,
-                    ProductName = updateproduct.ProductName,
-                    Guid_SubCategoryId = updateproduct.Guid_SubCategoryId,
-                    Guid_SubSubCategoryId = updateproduct.Guid_SubSubCategoryId,
-                    Short_Description = updateproduct.Short_Description,
-                    Is_InSale = updateproduct.Is_InSale,
-                    Guid_BrandId = updateproduct.Guid_BrandId,
-                    Full_Description = updateproduct.Full_Description,
-                    Price = Convert.ToDecimal(updateproduct.Price),
-                    Discount = Convert.ToDecimal(updateproduct.Discount),
-                    Available_Stock = Convert.ToDecimal(updateproduct.Available_Stock),
-                    Thumbnail_Image_Url = updateproduct.Thumbnail_Image_Url,
-                    Date_Inactive = null,
+                    product.Guid_ProductId = updateproduct.Guid_ProductId;
+                    product.Guid_CategoryId = updateproduct.Guid_CategoryId;
+                    product.ProductName = updateproduct.ProductName;
+                    product.Guid_SubCategoryId = updateproduct.Guid_SubCategoryId;
+                    product.Guid_SubSubCategoryId = updateproduct.Guid_SubSubCategoryId;
+                    product.Short_Description = updateproduct.Short_Description;
+                    product.Is_InSale = updateproduct.Is_InSale;
+                    product.Guid_BrandId = updateproduct.Guid_BrandId;
+                    product.Full_Description = updateproduct.Full_Description;
+                    product.Price = Convert.ToDecimal(updateproduct.Price);
+                    product.Discount = Convert.ToDecimal(updateproduct.Discount);
+                    product.Available_Stock = Convert.ToDecimal(updateproduct.Available_Stock);
 
-                    Date_Created = DateTime.Now,
-                    Uid_Created = updateproduct.UserId
+                    product.Date_Inactive = null;
+                   
+
+                    product.Date_Created = DateTime.Now;
+                    product.Uid_Created = updateproduct.UserId;
 
 
                 };

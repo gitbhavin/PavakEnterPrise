@@ -36,10 +36,10 @@ namespace PVK.Application.Services.Category
                 var categoryname = _categoryContext.TblCategories.Where(x => x.CategoryName == addnewcategory.CategoryName && x.Date_Inactive == null).FirstOrDefault();
                 if (categoryname == null)
                 {
-
+                    var guidcategoryid = Guid.NewGuid().ToString();
                     var category = new TblCategory()
                     {
-                        Guid_CategoryId = Guid.NewGuid().ToString(),
+                        Guid_CategoryId = guidcategoryid,
                         CategoryName = addnewcategory.CategoryName,
                         Guid_SubCategoryId = addnewcategory.Guid_SubCategoryId,
                         Guid_SubSubCategoryId = addnewcategory.Guid_SubSubCategoryId,
@@ -57,6 +57,7 @@ namespace PVK.Application.Services.Category
                     var result = await _categoryContext.SaveChangesAsync();
                     if (result > 0)
                     {
+                        response.guid = guidcategoryid;
                         response.Status = true;
                         response.Message = "data save successfully";
 
@@ -95,10 +96,6 @@ namespace PVK.Application.Services.Category
 
                 if (category != null)
                 {
-
-
-
-
                     category.Date_Inactive = DateTime.Now;
                     category.Uid_Modified = deleteCategory.UserId;
 
@@ -228,7 +225,7 @@ namespace PVK.Application.Services.Category
         }
 
         public async Task<CategoryResponse> GetSubCategoryById(string Guid_CategoryId)
-        {
+        { 
             CategoryResponse response = new CategoryResponse();
 
             try
@@ -275,21 +272,23 @@ namespace PVK.Application.Services.Category
             CategoryResponse response = new CategoryResponse();
             try
             {
-                var category = new TblCategory()
+                var category = _categoryContext.TblCategories.Where(x => x.Guid_CategoryId == updateCategory.Guid_CategoryId).FirstOrDefault();
+                if (category != null)
                 {
-                    Guid_CategoryId = updateCategory.Guid_CategoryId,
-                    Guid_SubCategoryId = updateCategory.Guid_SubCategoryId,
-                    Guid_SubSubCategoryId = updateCategory.Guid_SubSubCategoryId,
-                    CategoryName = updateCategory.CategoryName,
-                    Description = updateCategory.Description,
-                    Date_Modified = DateTime.Now,
-                    Uid_Modified = updateCategory.UserId
+                    category.Guid_CategoryId = updateCategory.Guid_CategoryId;
+                    category.Guid_SubCategoryId = updateCategory.Guid_SubCategoryId;
+                    category.Guid_SubSubCategoryId = updateCategory.Guid_SubSubCategoryId;
+                    category.CategoryName = updateCategory.CategoryName;
+                    category.Description = updateCategory.Description;
+                    category.Date_Modified = DateTime.Now;
+                    category.Uid_Modified = updateCategory.UserId;
                 };
 
                 _categoryContext.TblCategories.Update(category);
                 var result = await _categoryContext.SaveChangesAsync();
                 if (result > 0)
                 {
+                    response.guid = updateCategory.Guid_CategoryId;
                     response.Status = true;
                     response.Message = "data updated successfully";
 
@@ -362,6 +361,49 @@ namespace PVK.Application.Services.Category
         {
             Random random = new Random();
             return random.Next(min, max);
+        }
+
+        public async Task<CategoryResponse> categorylist()
+        {
+            CategoryResponse response = new CategoryResponse();
+
+            try
+            {
+                var result = await _categoryContext.TblCategories.Where(x => x.Date_Inactive == null && (string.IsNullOrEmpty(x.Guid_SubCategoryId)) && (string.IsNullOrEmpty(x.Guid_SubSubCategoryId))).ToListAsync();
+
+                if (result != null)
+                {
+                    foreach (var item in result)
+                    {
+
+                        CategoryData data = new CategoryData();
+                        data.Guid_CategoryId = item.Guid_CategoryId;
+                        data.CategoryName = item.CategoryName;
+                        data.Description = item.Description;
+                        data.CategoryImg = item.CategoryImg;
+                        data.IsPreorder = item.IsPreorder;
+                        data.Guid_SubCategoryId = item.Guid_SubCategoryId;
+                        data.Guid_SubSubCategoryId = item.Guid_SubSubCategoryId;
+
+                        response.categoryDatas.Add(data);
+                    }
+                    response.Message = "Success!";
+                    response.Status = true;
+                }
+                else
+                {
+                    response.Message = "No Record Found!";
+                    response.Status = true;
+                }
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+                response.Status = false;
+
+                return response;
+            }
         }
     }
 }
