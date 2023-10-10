@@ -40,10 +40,10 @@ namespace PVK.Application.Services.Product
                 var productname = _productContext.TblProducts.Where(x => x.ProductName == addnewproduct.ProductName && x.Date_Inactive == null).FirstOrDefault();
                 if (productname == null)
                 {
-                    var Guid_ProductId = Guid.NewGuid().ToString();
+                    var guidproductid =Guid.NewGuid().ToString();
                     var product = new TblProduct()
                     {
-                        Guid_ProductId = Guid_ProductId,
+                        Guid_ProductId = guidproductid,
                         Guid_CategoryId = addnewproduct.Guid_CategoryId,
                         ProductName = addnewproduct.ProductName,
                         Guid_SubCategoryId = addnewproduct.Guid_SubCategoryId,
@@ -66,7 +66,7 @@ namespace PVK.Application.Services.Product
                     var result = await _productContext.SaveChangesAsync();
                     if (result > 0)
                     {
-                        response.guid = Guid_ProductId;
+                        response.guid = guidproductid;
                         response.Status = true;
                         response.Message = "data save successfully";
 
@@ -158,6 +158,7 @@ namespace PVK.Application.Services.Product
 
 
                         ProductData data = new ProductData();
+                        data.Guid_ProductId = item.Guid_ProductId;
                         data.Guid_CategoryId = item.Guid_CategoryId;
                         data.ProductName = item.ProductName;
                         data.Short_Description = item.Short_Description;
@@ -220,6 +221,7 @@ namespace PVK.Application.Services.Product
 
 
                         ProductData data = new ProductData();
+                        data.Guid_ProductId = item.Guid_ProductId;
                         data.Guid_CategoryId = item.Guid_CategoryId;
                         data.ProductName = item.ProductName;
                         data.Short_Description = item.Short_Description;
@@ -282,6 +284,7 @@ namespace PVK.Application.Services.Product
 
 
                         ProductData data = new ProductData();
+                        data.Guid_ProductId = item.Guid_ProductId;
                         data.Guid_CategoryId = item.Guid_CategoryId;
                         data.ProductName = item.ProductName;
                         data.Short_Description = item.Short_Description;
@@ -344,6 +347,7 @@ namespace PVK.Application.Services.Product
 
 
                         ProductData data = new ProductData();
+                        data.Guid_ProductId = item.Guid_ProductId;
                         data.Guid_CategoryId = item.Guid_CategoryId;
                         data.ProductName = item.ProductName;
                         data.Short_Description = item.Short_Description;
@@ -419,7 +423,7 @@ namespace PVK.Application.Services.Product
 
 
                 _productContext.TblProducts.Update(product);
-                var result = await _categoryContext.SaveChangesAsync();
+                var result = await _productContext.SaveChangesAsync();
                 if (result > 0)
                 {
                     response.Status = true;
@@ -466,7 +470,7 @@ namespace PVK.Application.Services.Product
                 {
                     product.Thumbnail_Image_Url = uniqueFileName;
                     _productContext.TblProducts.Update(product);
-                    var result = await _categoryContext.SaveChangesAsync();
+                    var result = await _productContext.SaveChangesAsync();
                     if (result > 0)
                     {
                         response.Status = true;

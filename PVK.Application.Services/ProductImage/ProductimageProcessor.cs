@@ -27,7 +27,7 @@ namespace PVK.Application.Services.ProductImage
             this._productContext = productContext;
         }
 
-        public async Task<ProdcutimageResponse> AddProductimages(IFormFile file, Addproductimage addproductimage)
+        public async Task<ProdcutimageResponse> AddProductimages(IFormFile file, string productguid_id)
         {
             ProdcutimageResponse response = new ProdcutimageResponse();
             try
@@ -52,13 +52,13 @@ namespace PVK.Application.Services.ProductImage
                 var productimage = new TblProductImage()
                 {
                    Guid_ProductImageId=Guid.NewGuid().ToString(),
-                   Guid_ProductId=addproductimage.Guid_ProductId,
-                   Is_Primary=addproductimage.Is_Primary,
+                   Guid_ProductId= productguid_id,
+                   //Is_Primary=addproductimage.Is_Primary,
                    Image_Url= uniqueFileName,
                     Date_Inactive = null,
 
                     Date_Created = DateTime.Now,
-                    Uid_Created = addproductimage.UserId
+                   // Uid_Created = addproductimage.UserId
 
 
                 };

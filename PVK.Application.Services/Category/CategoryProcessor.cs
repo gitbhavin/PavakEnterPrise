@@ -404,5 +404,47 @@ namespace PVK.Application.Services.Category
                 return response;
             }
         }
+
+        public async Task<CategoryResponse> categorylistformenu()
+        {
+            CategoryResponse response = new CategoryResponse();
+            try
+            {
+                var result = await _categoryContext.TblCategories.Where(x => x.Date_Inactive == null && (string.IsNullOrEmpty(x.Guid_SubCategoryId)) && (string.IsNullOrEmpty(x.Guid_SubSubCategoryId))).ToListAsync();
+
+                if (result != null)
+                {
+                    foreach (var item in result)
+                    {
+
+                        CategoryData data = new CategoryData();
+                        data.Guid_CategoryId = item.Guid_CategoryId;
+                        data.CategoryName = item.CategoryName;
+                        data.Description = item.Description;
+                        data.CategoryImg = item.CategoryImg;
+                        data.IsPreorder = item.IsPreorder;
+                        data.Guid_SubCategoryId = item.Guid_SubCategoryId;
+                        data.Guid_SubSubCategoryId = item.Guid_SubSubCategoryId;
+                        data.subcategorylist= await _categoryContext.TblCategories.Where(x => x.Date_Inactive == null && (string.IsNullOrEmpty(x.Guid_SubSubCategoryId)) && x.Guid_SubCategoryId == item.Guid_CategoryId).ToListAsync();
+                        response.categoryDatas.Add(data);
+                    }
+                    response.Message = "Success!";
+                    response.Status = true;
+                }
+                else
+                {
+                    response.Message = "No Record Found!";
+                    response.Status = true;
+                }
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+                response.Status = false;
+
+                return response;
+            }
+        }
     }
 }

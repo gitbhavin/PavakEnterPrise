@@ -1,4 +1,5 @@
 ﻿using PVK.DTO.BaseResponse;
+using PVK.EFCore.Data.CategoryScope;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -19,5 +20,7 @@ namespace PVK.DTO.Category
         public string CategoryImg { get; set; }
 
         public bool IsPreorder { get; set; }
+
+        public List<TblCategory> subcategorylist { get; set; } = new List<TblCategory>();
     }
 }

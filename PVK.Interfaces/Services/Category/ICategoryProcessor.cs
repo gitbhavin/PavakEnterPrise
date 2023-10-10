@@ -17,5 +17,6 @@ namespace PVK.Interfaces.Services.Category
         Task<CategoryResponse> GetCategoryById(string Guid_CategoryId);
         Task<CategoryResponse> GetSubCategoryById(string Guid_CategoryId);
         Task<CategoryResponse> UploadImage(IFormFile file, string productId);
+        Task<CategoryResponse> categorylistformenu();
     }
 }

@@ -39,6 +39,12 @@ namespace PVK.API.Controllers
         {
             return await _service.Getallproduct();
         }
+        [HttpPost("GetProductbyId")]
+        public async Task<ProductResponse> getproductbyproductid(string Guid_Productid)
+        {
+            return await _service.GetproductbyId(Guid_Productid);
+        }
+
 
         [HttpPost("GetProductbyCategoryId")]
         public async Task<ProductResponse> GetProductbyCategoryId(string Guid_CategoryId)

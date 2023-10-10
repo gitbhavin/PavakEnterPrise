@@ -64,6 +64,16 @@ using PVK.EFCore.Data.AddressScope;
 using PVK.Interfaces.Services.ContactUs;
 using PVK.Application.Services.ContactUs;
 using PVK.EFCore.Data.ContactUsScope;
+using PVK.Interfaces.Services.BannerImage;
+using PVK.Application.Services.BannerImage;
+using PVK.EFCore.Data.BannerImagescope;
+using PVK.EFCore.Data.BannerScope;
+using PVK.Interfaces.Services.Newslatter;
+using PVK.Application.Services.NewsLatter;
+using PVK.EFCore.Data.NewsLetterSetupScope;
+using PVK.Interfaces.Services.PickupLocation;
+using PVK.Application.Services.PickupLocation;
+using PVK.EFCore.Data.PickupLocationScope;
 
 namespace PVK.Application.Services
 {
@@ -126,6 +136,14 @@ namespace PVK.Application.Services
             services.AddScoped<IContactUsProcessor, ContactUsProcessor>();
             services.AddScoped<IContactUsServices, ContactUsServices>();
 
+            services.AddScoped<IBannerImageProcessor, BannerImageProcessor>();
+            services.AddScoped<IBannerImageService, BannerImageservice>();
+
+            services.AddScoped<INewslatterProcessor, NewslatterProcessor>();
+            services.AddScoped<INewslatterService, NewslatterService>();
+
+            services.AddScoped<IPickuplocationProcessor, PickuplocationProcessor>();
+            services.AddScoped<IPickuplocationService, PickuplocationService>();
         }
 
         public static IServiceCollection AddSqlDataBaseConnector(this IServiceCollection services,string connection)
@@ -135,7 +153,7 @@ namespace PVK.Application.Services
             services.AddDbContext<BrandContext>(options => options.UseSqlServer(connection).EnableDetailedErrors(EnableDetailedErrors));
 
             services.AddDbContext<TokenContext>(option => option.UseSqlServer(connection).EnableDetailedErrors(EnableDetailedErrors));          
-            services.AddDbContext<BrandContext>(options => options.UseSqlServer(connection).EnableDetailedErrors(EnableDetailedErrors));
+            services.AddDbContext<BannerContext>(options => options.UseSqlServer(connection).EnableDetailedErrors(EnableDetailedErrors));
             services.AddDbContext<SmsurlContext>(options => options.UseSqlServer(connection).EnableDetailedErrors(EnableDetailedErrors));
             services.AddDbContext<SmsTemplateContext>(options => options.UseSqlServer(connection).EnableDetailedErrors(EnableDetailedErrors));
             services.AddDbContext<RoleContext>(options => options.UseSqlServer(connection).EnableDetailedErrors(EnableDetailedErrors));
@@ -154,6 +172,9 @@ namespace PVK.Application.Services
             services.AddDbContext<ProductImageContext>(options => options.UseSqlServer(connection).EnableDetailedErrors(EnableDetailedErrors));
             services.AddDbContext<AddressContext>(options => options.UseSqlServer(connection).EnableDetailedErrors(EnableDetailedErrors));
             services.AddDbContext<ContactUsContext>(options => options.UseSqlServer(connection).EnableDetailedErrors(EnableDetailedErrors));
+            services.AddDbContext<BannerImageContext>(options => options.UseSqlServer(connection).EnableDetailedErrors(EnableDetailedErrors));
+            services.AddDbContext<NewslettersetupContext>(options => options.UseSqlServer(connection).EnableDetailedErrors(EnableDetailedErrors));
+            services.AddDbContext<PickupLocationContext>(options => options.UseSqlServer(connection).EnableDetailedErrors(EnableDetailedErrors));
 
             return services;
         }

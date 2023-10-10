@@ -9,7 +9,7 @@ namespace PVK.Interfaces.Services.ProductImage
 {
    public interface IProductimageProcessor
     {
-        Task<ProdcutimageResponse> AddProductimages(IFormFile file, Addproductimage addproductimage);
+        Task<ProdcutimageResponse> AddProductimages(IFormFile file, string productguid_id);
 
         Task<ProdcutimageResponse> UploadProductimages(IFormFile file, Updateproductimage updateproductimage);
 
