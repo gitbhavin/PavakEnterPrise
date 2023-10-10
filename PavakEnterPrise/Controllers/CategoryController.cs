@@ -63,7 +63,11 @@ namespace PVK.API.Controllers
         {
             return await _service.UploadImage(file, categoryid);
         }
-
+        [HttpGet("categorylistformenu")]
+        public async Task<CategoryResponse> categorylistformenu()
+        {
+            return await _service.categorylistformenu();
+        }
 
     }
 }

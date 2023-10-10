@@ -27,15 +27,25 @@ namespace PVK.Application.Services.Order
             try
             {
                 var orderguid = Guid.NewGuid().ToString();
+                int? count = _orderContext.TblOrders.ToList().Count() + 1;
                 var order = new TblOrder()
                 {
                     Guid_OrderId = orderguid,
+                    orderno = "OD" + count.ToString(),
                     Guid_UserId = addOrder.Guid_UserId,
                     Guid_PickupLocationId = addOrder.Guid_PickupLocationId,
-                    Discount = addOrder.Discount,
-                    Tax = addOrder.Tax,
-                    Total = addOrder.Total,
-                    Date_Inactive = null,
+                    Discount =Convert.ToDecimal(addOrder.Discount),
+                    name=addOrder.name,
+                    emailid=addOrder.emailid,
+                    address=addOrder.address,
+                    city=addOrder.city,
+                    zipcode=addOrder.zipcode,
+                    phoneno=addOrder.phoneno,
+                    remark=addOrder.remark,
+                    status=addOrder.status,
+                    Tax = Convert.ToDecimal(addOrder.Tax),
+                    Total = Convert.ToDecimal(addOrder.Total),                   
+                    estimatedeliverydate=DateTime.Now,
                     Date_Created = DateTime.Now,
                     Uid_Created = addOrder.Guid_UserId
                 };
@@ -56,13 +66,14 @@ namespace PVK.Application.Services.Order
                             Discount_Price = item.Discount_Price,
                             Quantity = item.Quantity,
                             Date_Created = DateTime.Now,
+                            Totalprice=item.Totalprice,
                             Date_Inactive = null,
                             Uid_Created = addOrder.Guid_UserId
                         };
                         await _orderDetailContext.TblOrderDetails.AddAsync(orderdetail);
                         var resultorder = await _orderDetailContext.SaveChangesAsync();
                     }
-
+                    response.guid = orderguid;
                     response.Status = true;
                     response.Message = "order placed successfully";
 
@@ -107,9 +118,9 @@ namespace PVK.Application.Services.Order
                         data.Guid_OrderId = item.Guid_OrderId;
                         data.Guid_PickupLocationId = item.Guid_PickupLocationId;
                         data.Guid_UserId = item.Guid_UserId;
-                        data.Total = item.Total;
-                        data.Tax = item.Tax;
-                        data.Discount = item.Discount;
+                        data.Total = Convert.ToDecimal(item.Total);
+                        data.Tax = Convert.ToDecimal(item.Tax);
+                        data.Discount = Convert.ToDecimal(item.Discount);
                         data.orderDetails =await _orderDetailContext.TblOrderDetails.Where(o => o.Guid_OrderId == item.Guid_OrderId).ToListAsync();
 
 
@@ -150,9 +161,9 @@ namespace PVK.Application.Services.Order
                         data.Guid_OrderId = item.Guid_OrderId;
                         data.Guid_PickupLocationId = item.Guid_PickupLocationId;
                         data.Guid_UserId = item.Guid_UserId;
-                        data.Total = item.Total;
-                        data.Tax = item.Tax;
-                        data.Discount = item.Discount;
+                        data.Total = Convert.ToDecimal(item.Total);
+                        data.Tax = Convert.ToDecimal(item.Tax);
+                        data.Discount = Convert.ToDecimal(item.Discount);
                         data.orderDetails = await _orderDetailContext.TblOrderDetails.Where(o => o.Guid_OrderId == item.Guid_OrderId).ToListAsync();
 
 
@@ -193,9 +204,9 @@ namespace PVK.Application.Services.Order
                         data.Guid_OrderId = item.Guid_OrderId;
                         data.Guid_PickupLocationId = item.Guid_PickupLocationId;
                         data.Guid_UserId = item.Guid_UserId;
-                        data.Total = item.Total;
-                        data.Tax = item.Tax;
-                        data.Discount = item.Discount;
+                        data.Total = Convert.ToDecimal(item.Total);
+                        data.Tax = Convert.ToDecimal(item.Tax);
+                        data.Discount = Convert.ToDecimal(item.Discount);
                         data.orderDetails = await _orderDetailContext.TblOrderDetails.Where(o => o.Guid_OrderId == item.Guid_OrderId).ToListAsync();
 
 
@@ -236,9 +247,9 @@ namespace PVK.Application.Services.Order
                         data.Guid_OrderId = item.Guid_OrderId;
                         data.Guid_PickupLocationId = item.Guid_PickupLocationId;
                         data.Guid_UserId = item.Guid_UserId;
-                        data.Total = item.Total;
-                        data.Tax = item.Tax;
-                        data.Discount = item.Discount;
+                        data.Total = Convert.ToDecimal(item.Total);
+                        data.Tax = Convert.ToDecimal(item.Tax);
+                        data.Discount = Convert.ToDecimal(item.Discount);
                         data.orderDetails = await _orderDetailContext.TblOrderDetails.Where(o => o.Guid_OrderId == item.Guid_OrderId).ToListAsync();
 
 
@@ -275,9 +286,9 @@ namespace PVK.Application.Services.Order
                     Guid_OrderId = orderguid,
                     Guid_UserId = updateorder.Guid_UserId,
                     Guid_PickupLocationId = updateorder.Guid_PickupLocationId,
-                    Discount = updateorder.Discount,
-                    Tax = updateorder.Tax,
-                    Total = updateorder.Total,
+                    Discount = Convert.ToDecimal(updateorder.Discount),
+                    Tax = Convert.ToDecimal(updateorder.Tax),
+                    Total = Convert.ToDecimal(updateorder.Total),
                     Date_Inactive = null,
                     Date_Created = DateTime.Now,
                     Uid_Created = updateorder.Guid_UserId

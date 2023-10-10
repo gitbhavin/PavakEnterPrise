@@ -21,9 +21,9 @@ namespace PVK.API.Controllers
         }
 
         [HttpPost("Addproductimage")]
-        public async Task<ProdcutimageResponse> Addproductimage(IFormFile file,Addproductimage addproductimage)
+        public async Task<ProdcutimageResponse> Addproductimage(IFormFile file,string productguid_id)
         {
-            return await _service.AddProductimages(file,addproductimage);
+            return await _service.AddProductimages(file, productguid_id);
         }
         [HttpPost("Deleteproductimage")]
         public async Task<ProdcutimageResponse> Deleteproductimage(Deleteproductimage deleteproductimage)

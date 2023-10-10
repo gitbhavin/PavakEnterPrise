@@ -16,9 +16,9 @@ namespace PVK.Application.Services.ProductImage
         {
             this._productimageProcessor = productimageProcessor;
         }
-        public async Task<ProdcutimageResponse> AddProductimages(IFormFile file, Addproductimage addproductimage)
+        public async Task<ProdcutimageResponse> AddProductimages(IFormFile file, string productguid_id)
         {
-            return await _productimageProcessor.AddProductimages(file, addproductimage);
+            return await _productimageProcessor.AddProductimages(file, productguid_id);
         }
 
         public async Task<ProdcutimageResponse> deleteproductimage(Deleteproductimage deleteproductimage)

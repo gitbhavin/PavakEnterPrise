@@ -25,5 +25,7 @@ namespace PVK.Interfaces.Services.Category
 
         Task<CategoryResponse> UploadImage(IFormFile file, string categoryid);
 
+        Task<CategoryResponse> categorylistformenu();
+
     }
 }
