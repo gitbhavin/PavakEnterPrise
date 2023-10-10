@@ -62,31 +62,6 @@ namespace PVK.API.Controllers
             return await _service.GetOrderbyUserId(guiduserid);
         }
 
-        [HttpPost]
-        [Route("sendemail")]
-        public async Task<OrderResponse> sendemail(string email)
-        {
-            OrderResponse status = new OrderResponse();
-            try
-            {
-                string apiKey = "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";
-                var client = new SendGridClient(apiKey);
-                var from = new EmailAddress("info@cake2celebrate.co.uk", "Prathna Patel");
-                var subject = "Sending with SendGrid is Fun";
-                var to = new EmailAddress("nileshptl2519@gmail.com", "Example User");
-                var plainTextContent = "and easy to do anywhere, even with C#";
-                var htmlContent = "<strong>and easy to do anywhere, even with C#</strong>";
-                var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
-                var response = await client.SendEmailAsync(msg);
-                //whatsapp.sendwhatsappmsg(body, number);
-                status.Status = true;
-                return status;
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
+       
     }
 }
