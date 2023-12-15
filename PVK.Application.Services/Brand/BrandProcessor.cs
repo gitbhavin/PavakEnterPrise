@@ -76,7 +76,7 @@ namespace PVK.Application.Services.Brand
             try
             {
                 var result = await _brandContext.TblBrands.Where(x => x.Date_Inactive == null).OrderByDescending(a => a.Date_Created).ToListAsync();
-
+               
                 if (result != null)
                 {
                     foreach (var item in result)
