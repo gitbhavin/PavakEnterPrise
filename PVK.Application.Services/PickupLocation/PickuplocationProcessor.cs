@@ -184,7 +184,7 @@ namespace PVK.Application.Services.PickupLocation
                 if (result > 0)
                 {
                     response.Status = true;
-                    response.Message = "Data Updated Successfully";
+                    response.Message = "pickuplocation Updated Successfully";
                 }
                 return response;
             }
