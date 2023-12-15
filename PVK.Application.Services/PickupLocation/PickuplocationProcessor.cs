@@ -26,6 +26,9 @@ namespace PVK.Application.Services.PickupLocation
                     var address = new TblPickupLocation()
                     {
                         Guid_PickupLocationId = Guid.NewGuid().ToString(),
+                        ContactName=addPickuplocation.ContactName,
+                        ContactNumber=addPickuplocation.ContactNumber,
+                        ContactNumber2=addPickuplocation.ContactNumber2,
                         CityName = addPickuplocation.CityName,                       
                         Address1 = addPickuplocation.Address1,
                         Address2 = addPickuplocation.Address2,
@@ -110,13 +113,17 @@ namespace PVK.Application.Services.PickupLocation
             try
             {
                 var result = await _pickuplocationContext.TblPickupLocations.Where(x => x.Date_Inactive == null).ToListAsync();
+
+                
                 if (result != null)
                 {
                     foreach (var item in result)
                     {
                         PickupLocationdata data = new PickupLocationdata();
                         data.Guid_PickupLocationId = item.Guid_PickupLocationId;
-                      
+                        data.ContactName = item.ContactName;
+                        data.ContactNumber = item.ContactNumber;
+                        data.ContactNumber2 = item.ContactNumber2;
                         data.Address1 = item.Address1;
                         data.Address2 = item.Address2;
                         data.City = item.City;
@@ -131,6 +138,8 @@ namespace PVK.Application.Services.PickupLocation
                     }
                     response.Status = true;
                     response.Message = "Sucsess";
+                   
+
                 }
                 else
                 {

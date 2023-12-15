@@ -8,6 +8,9 @@ namespace PVK.DTO.PickupLocation
    public class PickupLocationdata: BaseRequest
     {
         public string Guid_PickupLocationId { get; set; }
+        public string ContactName { get; set; }
+        public string ContactNumber { get; set; }
+        public string ContactNumber2 { get; set; }
         public string CityName { get; set; }
         public string Address1 { get; set; }
         public string Address2 { get; set; }
