@@ -39,5 +39,16 @@ namespace PVK.API.Controllers
         {
             return await _services.UpdateGallary(updateGallary);
         }
+        [HttpPost("GetGallarybyid")]
+        public async Task<GallaryResponse> GetGallarybyid(string GiudGallaryid)
+        {
+            return await _services.GetGallaryById(GiudGallaryid);
+        }
+
+        [HttpPost("UploadGallaryImage")]
+        public async Task<GallaryResponse> UploadGallaryImage(IFormFile file,string GiudGallaryid,bool IsPrimary)
+        {
+            return await _services.UploadImage(file, GiudGallaryid, IsPrimary);
+        }
     }
 }

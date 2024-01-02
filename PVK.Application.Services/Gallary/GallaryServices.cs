@@ -1,4 +1,5 @@
-﻿using PVK.DTO.Gallary;
+﻿using Microsoft.AspNetCore.Http;
+using PVK.DTO.Gallary;
 using PVK.Interfaces.Services.Gallary;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,11 @@ namespace PVK.Application.Services.Gallary
             return await _gallaryProcessor.GetAllGallaryList();
         }
 
+        public async Task<GallaryResponse> GetGallaryById(string GuidGallaryId)
+        {
+            return await _gallaryProcessor.GetGallaryById(GuidGallaryId);
+        }
+
         public async Task<GallaryResponse> RemoveGallary(DeleteGallary tblgallary)
         {
             return await _gallaryProcessor.RemoveGallary(tblgallary);
@@ -33,6 +39,11 @@ namespace PVK.Application.Services.Gallary
         public async Task<GallaryResponse> UpdateGallary(UpdateGallary tblgallary)
         {
             return await _gallaryProcessor.UpdateGallary(tblgallary);
+        }
+
+        public async Task<GallaryResponse> UploadImage(IFormFile file, string GuidGallaryId, bool IsPrimary)
+        {
+            return await _gallaryProcessor.UploadImage(file, GuidGallaryId, IsPrimary);
         }
     }
 }

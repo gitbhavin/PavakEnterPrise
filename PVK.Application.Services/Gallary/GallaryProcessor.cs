@@ -1,9 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using PVK.DTO.Gallary;
 using PVK.EFCore.Data.GallaryScope;
 using PVK.Interfaces.Services.Gallary;
+using PVK.QueryHandlers.Helper;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,10 +17,12 @@ namespace PVK.Application.Services.Gallary
     public class GallaryProcessor : IGallaryProcessor
     {
         private GallaryContext _gallaryContext;
+        private ImageSettings _imageSettings;
 
-        public GallaryProcessor(GallaryContext gallaryContext)
+        public GallaryProcessor(GallaryContext gallaryContext, IOptions<ImageSettings> imageSettings)
         {
             this._gallaryContext = gallaryContext;
+            this._imageSettings = imageSettings.Value;
         }
         public async Task<GallaryResponse> AddNewGallary(AddGallaryData addGallaryData)
         {
@@ -104,6 +110,50 @@ namespace PVK.Application.Services.Gallary
             }
       
         }
+
+        public async Task<GallaryResponse> GetGallaryById(string GuidGallaryId)
+        {
+            GallaryResponse response = new GallaryResponse();
+            try
+            {
+                var result = await _gallaryContext.TblGallaries.Where(x => x.Date_Inactive == null && x.GuidGallaryId == GuidGallaryId).ToListAsync();
+                if(result != null)
+                {
+                    foreach(var item in result)
+                    {
+                        var gallary = _gallaryContext.TblGallaries.Where(a => a.GuidGallaryId == item.GuidGallaryId).FirstOrDefault();
+                        var name = _gallaryContext.TblGallaries.Where(a => a.Name == item.Name).FirstOrDefault();
+
+                        GallaryData data = new GallaryData();
+                        data.GuidGallaryId = item.GuidGallaryId;
+                        data.Name = item.Name;
+
+                        if (name != null)
+                            data.Name = name.Name;
+
+                        response.gallaryDatas.Add(data);
+                    }
+
+                    response.Message = "Success!";
+                    response.Status = true;
+                }
+                else
+                {
+                    response.Message = "No Record Found!";
+                    response.Status = true;
+                }
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+                response.Status = false;
+
+                return response;
+            }
+
+        }
+
         //Remove Gallary Data
         public async Task<GallaryResponse> RemoveGallary(DeleteGallary tblgallary)
         {
@@ -151,22 +201,26 @@ namespace PVK.Application.Services.Gallary
             GallaryResponse response = new GallaryResponse();
             try
             {
-                var gallary = new TblGallary()
+                var resultgallary = _gallaryContext.TblGallaries.Where(x => x.GuidGallaryId == tblgallary.GuidGallaryId).FirstOrDefault();
+                if (resultgallary != null)
                 {
-                    GuidGallaryId=tblgallary.GuidGallaryId,
-                    Name=tblgallary.Name,
-                    Date_Modified=DateTime.Now,
-                    Uid_Modified=tblgallary.UserId
-                };
 
-                _gallaryContext.TblGallaries.Update(gallary);
-                var result = await _gallaryContext.SaveChangesAsync();
-                if (result > 0)
-                {
-                    response.Status = true;
-                    response.Message = "Data Updated Successfully";
+                    resultgallary.GuidGallaryId = tblgallary.GuidGallaryId;
+                    resultgallary.Name = tblgallary.Name;
+                    resultgallary.Date_Modified = DateTime.Now;
+                    resultgallary.Uid_Modified = tblgallary.UserId;
+                    
+
+                    _gallaryContext.TblGallaries.Update(resultgallary);
+                    var result = await _gallaryContext.SaveChangesAsync();
+                    if (result > 0)
+                    {
+                        response.Status = true;
+                        response.Message = "Data Updated Successfully";
+                    }
                 }
                 return response;
+
             }
             catch (Exception ex)
             {
@@ -175,6 +229,70 @@ namespace PVK.Application.Services.Gallary
 
                 return response;
             }
+        }
+
+        public async Task<GallaryResponse> UploadImage(IFormFile file, string GuidGallaryId, bool IsPrimary)
+        {
+            GallaryResponse response = new GallaryResponse();
+
+            try
+            {
+
+                if (file == null || file.Length == 0)
+                {
+                    response.Status = false;
+                    response.Message = "";
+                    return response;
+                }
+
+                string uploadsFolder = Path.Combine(_imageSettings.ImageFolderPath);
+                string uniqueFileName = RandomNumber(1000, 50000) + "_" + file.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(fileStream);
+                }
+
+                var gallaryimage = new TblGallary()
+                {
+                    GuidGallaryId = Guid.NewGuid().ToString(),
+                    Name = uniqueFileName,
+                    Date_Inactive = null,
+                    Date_Created = DateTime.Now,
+           
+                };
+
+                await _gallaryContext.TblGallaries.AddAsync(gallaryimage);
+                var result = await _gallaryContext.SaveChangesAsync();
+                if (result > 0)
+                {
+                    response.Status = true;
+                    response.Message = "Image uploaded successfully.";
+                }
+                else
+                {
+                    response.Status = false;
+                    response.Message = "data already added";
+                }
+
+
+                return response;
+
+            }
+            catch (Exception ex)
+            {
+                response.Status = false;
+                response.Message = ex.ToString();
+            }
+            return response;
+
+        }
+
+        public int RandomNumber(int min, int max)
+        {
+            Random random = new Random();
+            return random.Next(min, max);
         }
     }
 }
