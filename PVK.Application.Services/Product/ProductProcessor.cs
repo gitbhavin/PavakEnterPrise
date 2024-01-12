@@ -40,10 +40,10 @@ namespace PVK.Application.Services.Product
                 var productname = _productContext.TblProducts.Where(x => x.ProductName == addnewproduct.ProductName && x.Date_Inactive == null).FirstOrDefault();
                 if (productname == null)
                 {
-
+                    var guidproductid =Guid.NewGuid().ToString();
                     var product = new TblProduct()
                     {
-                        Guid_ProductId = Guid.NewGuid().ToString(),
+                        Guid_ProductId = guidproductid,
                         Guid_CategoryId = addnewproduct.Guid_CategoryId,
                         ProductName = addnewproduct.ProductName,
                         Guid_SubCategoryId = addnewproduct.Guid_SubCategoryId,
@@ -52,22 +52,21 @@ namespace PVK.Application.Services.Product
                         Is_InSale = addnewproduct.Is_InSale,
                         Guid_BrandId=addnewproduct.Guid_BrandId,
                         Full_Description=addnewproduct.Full_Description,
-                        Price=addnewproduct.Price,
-                        Discount=addnewproduct.Discount,
-                        Available_Stock=addnewproduct.Available_Stock,
+                        Price=Convert.ToDecimal(addnewproduct.Price),
+                        Discount= Convert.ToDecimal(addnewproduct.Discount),
+                        Available_Stock= Convert.ToDecimal(addnewproduct.Available_Stock),
                         Thumbnail_Image_Url=addnewproduct.Thumbnail_Image_Url,
                         Date_Inactive = null,
 
                         Date_Created = DateTime.Now,
                         Uid_Created = addnewproduct.UserId
-
-
                     };
 
                     await _productContext.TblProducts.AddAsync(product);
                     var result = await _productContext.SaveChangesAsync();
                     if (result > 0)
                     {
+                        response.guid = guidproductid;
                         response.Status = true;
                         response.Message = "data save successfully";
 
@@ -159,14 +158,15 @@ namespace PVK.Application.Services.Product
 
 
                         ProductData data = new ProductData();
+                        data.Guid_ProductId = item.Guid_ProductId;
                         data.Guid_CategoryId = item.Guid_CategoryId;
                         data.ProductName = item.ProductName;
                         data.Short_Description = item.Short_Description;
                         data.Full_Description = item.Full_Description;
                         data.Is_InSale = item.Is_InSale;
-                        data.Price = item.Price;
-                        data.Discount = item.Discount;
-                        data.Available_Stock = item.Available_Stock;
+                        data.Price = Convert.ToDecimal(item.Price);
+                        data.Discount = Convert.ToDecimal(item.Discount);
+                        data.Available_Stock = Convert.ToDecimal(item.Available_Stock);
                         data.Guid_BrandId = item.Guid_BrandId;
                         data.Thumbnail_Image_Url = item.Thumbnail_Image_Url;                       
 
@@ -221,6 +221,7 @@ namespace PVK.Application.Services.Product
 
 
                         ProductData data = new ProductData();
+                        data.Guid_ProductId = item.Guid_ProductId;
                         data.Guid_CategoryId = item.Guid_CategoryId;
                         data.ProductName = item.ProductName;
                         data.Short_Description = item.Short_Description;
@@ -283,6 +284,7 @@ namespace PVK.Application.Services.Product
 
 
                         ProductData data = new ProductData();
+                        data.Guid_ProductId = item.Guid_ProductId;
                         data.Guid_CategoryId = item.Guid_CategoryId;
                         data.ProductName = item.ProductName;
                         data.Short_Description = item.Short_Description;
@@ -345,6 +347,7 @@ namespace PVK.Application.Services.Product
 
 
                         ProductData data = new ProductData();
+                        data.Guid_ProductId = item.Guid_ProductId;
                         data.Guid_CategoryId = item.Guid_CategoryId;
                         data.ProductName = item.ProductName;
                         data.Short_Description = item.Short_Description;
@@ -393,32 +396,34 @@ namespace PVK.Application.Services.Product
             ProductResponse response = new ProductResponse();
             try
             {
-                var product = new TblProduct()
+                var product = _productContext.TblProducts.Where(x => x.Guid_ProductId == updateproduct.Guid_ProductId).FirstOrDefault();
+                if (product != null)
                 {
-                    Guid_ProductId = updateproduct.Guid_ProductId,
-                    Guid_CategoryId = updateproduct.Guid_CategoryId,
-                    ProductName = updateproduct.ProductName,
-                    Guid_SubCategoryId = updateproduct.Guid_SubCategoryId,
-                    Guid_SubSubCategoryId = updateproduct.Guid_SubSubCategoryId,
-                    Short_Description = updateproduct.Short_Description,
-                    Is_InSale = updateproduct.Is_InSale,
-                    Guid_BrandId = updateproduct.Guid_BrandId,
-                    Full_Description = updateproduct.Full_Description,
-                    Price = updateproduct.Price,
-                    Discount = updateproduct.Discount,
-                    Available_Stock = updateproduct.Available_Stock,
-                    Thumbnail_Image_Url = updateproduct.Thumbnail_Image_Url,
-                    Date_Inactive = null,
+                    product.Guid_ProductId = updateproduct.Guid_ProductId;
+                    product.Guid_CategoryId = updateproduct.Guid_CategoryId;
+                    product.ProductName = updateproduct.ProductName;
+                    product.Guid_SubCategoryId = updateproduct.Guid_SubCategoryId;
+                    product.Guid_SubSubCategoryId = updateproduct.Guid_SubSubCategoryId;
+                    product.Short_Description = updateproduct.Short_Description;
+                    product.Is_InSale = updateproduct.Is_InSale;
+                    product.Guid_BrandId = updateproduct.Guid_BrandId;
+                    product.Full_Description = updateproduct.Full_Description;
+                    product.Price = Convert.ToDecimal(updateproduct.Price);
+                    product.Discount = Convert.ToDecimal(updateproduct.Discount);
+                    product.Available_Stock = Convert.ToDecimal(updateproduct.Available_Stock);
 
-                    Date_Created = DateTime.Now,
-                    Uid_Created = updateproduct.UserId
+                    product.Date_Inactive = null;
+                   
+
+                    product.Date_Created = DateTime.Now;
+                    product.Uid_Created = updateproduct.UserId;
 
 
                 };
 
 
                 _productContext.TblProducts.Update(product);
-                var result = await _categoryContext.SaveChangesAsync();
+                var result = await _productContext.SaveChangesAsync();
                 if (result > 0)
                 {
                     response.Status = true;
@@ -465,7 +470,7 @@ namespace PVK.Application.Services.Product
                 {
                     product.Thumbnail_Image_Url = uniqueFileName;
                     _productContext.TblProducts.Update(product);
-                    var result = await _categoryContext.SaveChangesAsync();
+                    var result = await _productContext.SaveChangesAsync();
                     if (result > 0)
                     {
                         response.Status = true;

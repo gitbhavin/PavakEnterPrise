@@ -19,9 +19,9 @@ namespace PVK.Application.Services.EmailTemplate
             return await _emailtemplateProcessor.Addemailtemplate(addemailtemplate);
         }
 
-        public Task<EmailTemplateResponse> Deleteemailtemplate(Deleteemailtemplate deleteemailtemplate)
+        public async Task<EmailTemplateResponse> Deleteemailtemplate(Deleteemailtemplate deleteemailtemplate)
         {
-            throw new NotImplementedException();
+            return await _emailtemplateProcessor.Deleteemailtemplate(deleteemailtemplate);
         }
 
         public async Task<EmailTemplateResponse> GetAllEmailTemplate()

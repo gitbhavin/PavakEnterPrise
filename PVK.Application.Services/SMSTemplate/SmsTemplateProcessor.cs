@@ -109,6 +109,48 @@ namespace PVK.Application.Services.SMSTemplate
 
             }
         }
+
+        public async Task<SmsTemplateResponse> Getsmstemplatebyguid(string guidsmstemplateid)
+        {
+            SmsTemplateResponse response = new SmsTemplateResponse();
+
+            try
+            {
+                var result = await _smsTemplateContext.TblSmsTemplates.Where(x => x.Date_Inactive == null && x.GuidSMSTemplateId == guidsmstemplateid).ToListAsync();
+
+                if (result != null)
+                {
+                    foreach (var item in result)
+                    {
+                        SmsTemplateData data = new SmsTemplateData();
+                        data.GuidSMSTemplateId = item.GuidSMSTemplateId;
+                        data.Name = item.Name;
+                        data.Code = item.Code;
+
+                        data.Subject = item.Subject;
+                        data.Body = item.Body;
+
+                        response.smsTemplateDatas.Add(data);
+                    }
+                    response.Message = "Success!";
+                    response.Status = true;
+                }
+                else
+                {
+                    response.Message = "No Record Found!";
+                    response.Status = true;
+                }
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+                response.Status = false;
+
+                return response;
+            }
+        }
+
         //Remove SmsTemplate
         public async Task<SmsTemplateResponse> RemoveSmsTemplate(DeleteSmsTemplate tblSmsTemplate)
         {

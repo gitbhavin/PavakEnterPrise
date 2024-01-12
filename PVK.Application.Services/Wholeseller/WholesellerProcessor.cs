@@ -31,6 +31,7 @@ namespace PVK.Application.Services.Wholeseller
                     Name = addwholeseller.Name,
                     Email = addwholeseller.Email,
                     Phonenumber = addwholeseller.Phonenumber,
+                    Companyname=addwholeseller.Companyname,
                     Message = addwholeseller.Message,
                     Date_Inactive = null,
                     Date_Created = DateTime.Now,
@@ -124,6 +125,7 @@ namespace PVK.Application.Services.Wholeseller
                         data.Email = item.Email;
                         data.Phonenumber = item.Phonenumber;
                         data.Message = item.Message;
+                        data.Companyname = item.Companyname;
 
                         response.wholesellerDatas.Add(data);
                     }
@@ -164,7 +166,7 @@ namespace PVK.Application.Services.Wholeseller
                         data.Email = item.Email;
                         data.Phonenumber = item.Phonenumber;
                         data.Message = item.Message;
-
+                        data.Companyname = item.Companyname;
                         response.wholesellerDatas.Add(data);
                     }
                     response.Message = "Success!";
@@ -199,6 +201,7 @@ namespace PVK.Application.Services.Wholeseller
                     Email = updateWholeseller.Email,
                     Phonenumber = updateWholeseller.Phonenumber,
                     Message = updateWholeseller.Message,
+                    Companyname=updateWholeseller.Companyname,
                     Date_Inactive = null,
                     Date_Created = DateTime.Now,
                     Uid_Created = updateWholeseller.UserId

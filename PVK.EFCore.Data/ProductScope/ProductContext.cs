@@ -52,15 +52,15 @@ namespace PVK.EFCore.Data.ProductScope
 
                     entity.Property(e => e.Price)
                   .HasColumnName("Price")
-                  .HasColumnType("double");
+                  .HasColumnType("decimal");
 
                     entity.Property(e => e.Discount)
                   .HasColumnName("Discount")
-                  .HasColumnType("double");
+                  .HasColumnType("decimal");
 
                     entity.Property(e => e.Available_Stock)
                  .HasColumnName("Available_Stock")
-                 .HasColumnType("double");
+                 .HasColumnType("decimal");
 
                     entity.Property(e => e.Full_Description)
                .HasColumnName("Full_Description")

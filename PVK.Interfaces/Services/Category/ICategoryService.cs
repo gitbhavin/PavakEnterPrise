@@ -11,6 +11,8 @@ namespace PVK.Interfaces.Services.Category
     {
         Task<CategoryResponse> GetAllCategory();
 
+        Task<CategoryResponse> categorylist();
+
         Task<CategoryResponse> AddNewCategory(Addnewcategory addnewcategory);
 
         Task<CategoryResponse> DeleteCategory(DeleteCategory Guid_CategoryId);
@@ -22,6 +24,8 @@ namespace PVK.Interfaces.Services.Category
         Task<CategoryResponse> GetSubCategoryById(string Guid_CategoryId);
 
         Task<CategoryResponse> UploadImage(IFormFile file, string categoryid);
+
+        Task<CategoryResponse> categorylistformenu();
 
     }
 }

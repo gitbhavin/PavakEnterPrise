@@ -12,5 +12,7 @@ namespace PVK.Interfaces.Services.SMSTemplate
         Task<SmsTemplateResponse> AddNewSmsTemplate(AddSmsTemplateData addSmsTemplateData);
         Task<SmsTemplateResponse> UpdateSmsTemplate(UpdateSmsTemplate tblSmsTemplate);
         Task<SmsTemplateResponse> RemoveSmsTemplate(DeleteSmsTemplate tblSmsTemplate);
+
+        Task<SmsTemplateResponse> Getsmstemplatebyguid(string guidsmstemplateid);
     }
 }

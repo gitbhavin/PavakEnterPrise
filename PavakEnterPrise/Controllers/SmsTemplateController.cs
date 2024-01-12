@@ -39,6 +39,11 @@ namespace PVK.API.Controllers
         {
             return await _services.UpdateSmsTemplate(updateSmsTemplate);
         }
+        [HttpPost("GetsmstemplatebyId")]
+        public async Task<SmsTemplateResponse> GetsmstemplatebyId(string guidsmstemplateId)
+        {
+            return await _services.Getsmstemplatebyguid(guidsmstemplateId);
+        }
 
     }
 }
