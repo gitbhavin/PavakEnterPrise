@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PVK.DTO.Gallary;
 using PVK.Interfaces.Services.Gallary;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace PVK.API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class GallaryController : ControllerBase

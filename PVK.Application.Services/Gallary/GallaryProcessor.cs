@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using PVK.DTO.Gallary;
@@ -14,6 +15,7 @@ using System.Threading.Tasks;
 
 namespace PVK.Application.Services.Gallary
 {
+    
     public class GallaryProcessor : IGallaryProcessor
     {
         private GallaryContext _gallaryContext;
