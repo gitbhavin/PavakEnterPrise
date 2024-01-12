@@ -45,8 +45,8 @@ namespace PVK.EFCore.Data.GallaryImageScope
 
                    entity.Property(e => e.IsPrimery)
                    .HasColumnName("Is_Primery")
-                   .HasColumnType("bit")
-                   .IsRequired(false);
+                   .HasColumnType("bit");
+              
 
                    entity.Property(e => e.Date_Inactive)
                     .HasColumnName("Date_Inactive")

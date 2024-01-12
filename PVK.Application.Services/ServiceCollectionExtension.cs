@@ -74,6 +74,21 @@ using PVK.EFCore.Data.NewsLetterSetupScope;
 using PVK.Interfaces.Services.PickupLocation;
 using PVK.Application.Services.PickupLocation;
 using PVK.EFCore.Data.PickupLocationScope;
+using PVK.Interfaces.Services.GallaryImage;
+using PVK.Application.Services.GallaryImage;
+using PVK.Interfaces.Services.Gallary;
+using PVK.Application.Services.Gallary;
+using PVK.Interfaces.Services.GallaryVideo;
+using PVK.Application.Services.GallaryVideo;
+using PVK.EFCore.Data.GallaryImageScope;
+using PVK.EFCore.Data.GallaryVideoScope;
+using PVK.EFCore.Data.GallaryScope;
+using PVK.Interfaces.Services.Address;
+using PVK.Application.Services.Address;
+using PVK.EFCore.Data.AddressScope;
+using PVK.Interfaces.Services.ContactUs;
+using PVK.Application.Services.ContactUs;
+using PVK.EFCore.Data.ContactUsScope;
 
 namespace PVK.Application.Services
 {
@@ -144,6 +159,24 @@ namespace PVK.Application.Services
 
             services.AddScoped<IPickuplocationProcessor, PickuplocationProcessor>();
             services.AddScoped<IPickuplocationService, PickuplocationService>();
+
+            services.AddScoped<IGallaryImageProcessor, GallaryImageProcessor>();
+            services.AddScoped<IGallaryImageServices, GallaryImageServices>();
+
+            services.AddScoped<IGallaryProcessor, GallaryProcessor>();
+            services.AddScoped<IGallaryServices, GallaryServices>();
+
+            services.AddScoped<IGallaryVideoProcessor, GallaryVideoProcessor>();
+            services.AddScoped<IGallaryVideoServices, GallaryVideoServices>();
+
+            services.AddScoped<IAddressProcessor, AddressProcessor>();
+            services.AddScoped<IAddressServices, AddressServices>();
+
+            services.AddScoped<IContactUsProcessor, ContactUsProcessor>();
+            services.AddScoped<IContactUsServices, ContactUsServices>();
+
+
+
         }
 
         public static IServiceCollection AddSqlDataBaseConnector(this IServiceCollection services,string connection)
@@ -175,6 +208,13 @@ namespace PVK.Application.Services
             services.AddDbContext<BannerImageContext>(options => options.UseSqlServer(connection).EnableDetailedErrors(EnableDetailedErrors));
             services.AddDbContext<NewslettersetupContext>(options => options.UseSqlServer(connection).EnableDetailedErrors(EnableDetailedErrors));
             services.AddDbContext<PickupLocationContext>(options => options.UseSqlServer(connection).EnableDetailedErrors(EnableDetailedErrors));
+            services.AddDbContext<GallaryImageContext>(options => options.UseSqlServer(connection).EnableDetailedErrors(EnableDetailedErrors));
+            services.AddDbContext<GallaryVideoContext>(options => options.UseSqlServer(connection).EnableDetailedErrors(EnableDetailedErrors));
+            services.AddDbContext<GallaryContext>(options => options.UseSqlServer(connection).EnableDetailedErrors(EnableDetailedErrors));
+            services.AddDbContext<AddressContext>(options => options.UseSqlServer(connection).EnableDetailedErrors(EnableDetailedErrors));
+            services.AddDbContext<ContactUsContext>(options => options.UseSqlServer(connection).EnableDetailedErrors(EnableDetailedErrors));
+
+
 
             return services;
         }
