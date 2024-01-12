@@ -11,5 +11,6 @@ namespace PVK.DTO.GallaryImage
         public string GuidGallaryid { get; set; }
         public string ImageUrl { get; set; }
         public bool IsPrimery { get; set; }
+        public string Name { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PVK.DTO.Gallary;
 using PVK.Interfaces.Services.Gallary;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace PVK.API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class GallaryController : ControllerBase
@@ -38,6 +40,17 @@ namespace PVK.API.Controllers
         public async Task<GallaryResponse> UpdateGallary(UpdateGallary updateGallary)
         {
             return await _services.UpdateGallary(updateGallary);
+        }
+        [HttpPost("GetGallarybyid")]
+        public async Task<GallaryResponse> GetGallarybyid(string GiudGallaryid)
+        {
+            return await _services.GetGallaryById(GiudGallaryid);
+        }
+
+        [HttpPost("UploadGallaryImage")]
+        public async Task<GallaryResponse> UploadGallaryImage(IFormFile file,string GiudGallaryid,bool IsPrimary)
+        {
+            return await _services.UploadImage(file, GiudGallaryid, IsPrimary);
         }
     }
 }
