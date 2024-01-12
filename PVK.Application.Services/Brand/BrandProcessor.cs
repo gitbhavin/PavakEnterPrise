@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 using PVK.DTO.Brand;
 using PVK.EFCore.Data.BrandScope;
 using PVK.Interfaces.Services.Brand;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace PVK.Application.Services.Brand
 {
+   
     public class BrandProcessor : IBrandProcessor
     {
         private BrandContext _brandContext;
@@ -68,7 +70,7 @@ namespace PVK.Application.Services.Brand
                 return response;
             }
         }
-
+      
         public async Task<BrandResponse> GetAllBrands()
         {
             BrandResponse response = new BrandResponse();

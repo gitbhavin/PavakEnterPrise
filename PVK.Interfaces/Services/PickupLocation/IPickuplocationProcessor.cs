@@ -1,4 +1,5 @@
-﻿using PVK.DTO.PickupLocation;
+﻿using PVK.DTO.Brand;
+using PVK.DTO.PickupLocation;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,6 +13,7 @@ namespace PVK.Interfaces.Services.PickupLocation
         Task<PickupLocationResponse> AddNewPickuplocation(AddPickuplocation addPickuplocation);
         Task<PickupLocationResponse> Updatepickuplocation(updatePickupLocation updatePickupLocation);
         Task<PickupLocationResponse> Deletepickuplocation(deletePickuplocation deletePickuplocation);
+        Task<PickupLocationResponse> GetpickuplocationbyId(string guidpickuplocation);
 
     }
 }

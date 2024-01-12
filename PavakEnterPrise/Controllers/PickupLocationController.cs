@@ -40,5 +40,11 @@ namespace PVK.API.Controllers
         {
             return await _services.Deletepickuplocation(tbladdress);
         }
+
+        [HttpPost("GetpickuplocationbyId")]
+        public async Task<PickupLocationResponse> GetpickuplocationbyId(string guidpickuplocation)
+        {
+            return await _services.GetpickuplocationbyId(guidpickuplocation);
+        }
     }
 }

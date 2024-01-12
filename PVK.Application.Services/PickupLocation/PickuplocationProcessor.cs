@@ -26,15 +26,18 @@ namespace PVK.Application.Services.PickupLocation
                     var address = new TblPickupLocation()
                     {
                         Guid_PickupLocationId = Guid.NewGuid().ToString(),
-                        CityName = addPickuplocation.CityName,                       
+                        CityName = addPickuplocation.CityName,    
+                        ContactName=addPickuplocation.ContactName,
+                        ContactNumber=addPickuplocation.ContactNumber,
+                        ContactNumber2=addPickuplocation.ContactNumber2,
                         Address1 = addPickuplocation.Address1,
                         Address2 = addPickuplocation.Address2,
                         City = addPickuplocation.City,
                         State = addPickuplocation.State,
                         Zipcode = addPickuplocation.Zipcode,
                         Country = addPickuplocation.Country,                       
-                        Latitude = addPickuplocation.Latitude,
-                        Longitude = addPickuplocation.Longitude,
+                        Latitude =Convert.ToDecimal(addPickuplocation.Latitude),
+                        Longitude = Convert.ToDecimal(addPickuplocation.Longitude),
                         Date_Inactive = null,
                         Date_Created = DateTime.Now,
                         Uid_Created = addPickuplocation.UserId
@@ -116,7 +119,9 @@ namespace PVK.Application.Services.PickupLocation
                     {
                         PickupLocationdata data = new PickupLocationdata();
                         data.Guid_PickupLocationId = item.Guid_PickupLocationId;
-                      
+                        data.ContactName = item.ContactName;
+                        data.ContactNumber = item.ContactNumber;
+                        data.ContactNumber2 = item.ContactNumber2;
                         data.Address1 = item.Address1;
                         data.Address2 = item.Address2;
                         data.City = item.City;
@@ -127,6 +132,53 @@ namespace PVK.Application.Services.PickupLocation
                         data.Latitude = item.Latitude;
                         data.Longitude = item.Longitude;
                         
+                        response.pickuplocationDatas.Add(data);
+                    }
+                    response.Status = true;
+                    response.Message = "Sucsess";
+                }
+                else
+                {
+                    response.Status = true;
+                    response.Message = "No Record Found";
+                }
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response.Status = false;
+                response.Message = ex.Message;
+
+                return response;
+
+            }
+        }
+
+        public async Task<PickupLocationResponse> GetpickuplocationbyId(string guidpickuplocation)
+        {
+            PickupLocationResponse response = new PickupLocationResponse();
+            try
+            {
+                var result = await _pickuplocationContext.TblPickupLocations.Where(x => x.Guid_PickupLocationId==guidpickuplocation).ToListAsync();
+                if (result != null)
+                {
+                    foreach (var item in result)
+                    {
+                        PickupLocationdata data = new PickupLocationdata();
+                        data.Guid_PickupLocationId = item.Guid_PickupLocationId;
+                        data.ContactName = item.ContactName;
+                        data.ContactNumber = item.ContactNumber;
+                        data.ContactNumber2 = item.ContactNumber2;
+                        data.Address1 = item.Address1;
+                        data.Address2 = item.Address2;
+                        data.City = item.City;
+                        data.State = item.State;
+                        data.Zipcode = item.Zipcode;
+                        data.Country = item.Country;
+                        data.CityName = item.CityName;
+                        data.Latitude = item.Latitude;
+                        data.Longitude = item.Longitude;
+
                         response.pickuplocationDatas.Add(data);
                     }
                     response.Status = true;
@@ -160,6 +212,9 @@ namespace PVK.Application.Services.PickupLocation
                     CityName=updatePickupLocation.CityName,
                     Address1 = updatePickupLocation.Address1,
                     Address2 = updatePickupLocation.Address2,
+                    ContactName = updatePickupLocation.ContactName,
+                    ContactNumber = updatePickupLocation.ContactNumber,
+                    ContactNumber2 = updatePickupLocation.ContactNumber2,
                     City = updatePickupLocation.City,
                     State = updatePickupLocation.State,
                     Zipcode = updatePickupLocation.Zipcode,

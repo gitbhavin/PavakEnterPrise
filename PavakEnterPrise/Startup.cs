@@ -49,7 +49,7 @@ namespace PavakEnterPrise
 
             this.RegisterServices(services);
 
-           
+            services.Configure<StripeSettings>(Configuration.GetSection("StripeSettings"));
 
             services.AddResponseCaching();
             services.AddMemoryCache();
@@ -140,8 +140,9 @@ namespace PavakEnterPrise
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
+
             app.UseCors(myAllowSpecificOrigins);
             app.UseEndpoints(endpoints =>
             {

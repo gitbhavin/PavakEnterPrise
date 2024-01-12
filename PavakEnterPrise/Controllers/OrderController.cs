@@ -1,9 +1,14 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using PVK.DTO.Order;
 using PVK.Interfaces.Services.Order;
+using PVK.QueryHandlers.Helper;
 using SendGrid;
 using SendGrid.Helpers.Mail;
+using Stripe;
+using Stripe.BillingPortal;
+using Stripe.Checkout;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,10 +21,12 @@ namespace PVK.API.Controllers
     public class OrderController : ControllerBase
     {
         private readonly IOrderService _service;
-
-        public OrderController(IOrderService orderService)
+        private readonly StripeSettings _stripeSettings;
+        public string SessionId { get; set; }
+        public OrderController(IOrderService orderService, IOptions<StripeSettings> options)
         {
             this._service = orderService;
+            this._stripeSettings = options.Value;
         }
 
         [HttpGet("GetAllOrders")]
@@ -61,7 +68,47 @@ namespace PVK.API.Controllers
         {
             return await _service.GetOrderbyUserId(guiduserid);
         }
+        [HttpPost("checkoutpayment")]
+        public IActionResult checkoutsession(string amount)
+        {
+            var currancy = "usd";
+            var successUrl = "https://www.leymonn.com/";
+            var cancelUrl = "https://www.leymonn.com/";
 
+            StripeConfiguration.ApiKey = _stripeSettings.SecretKey;
+
+            var option = new Stripe.Checkout.SessionCreateOptions
+            {
+                
+                LineItems = new List<SessionLineItemOptions>
+              {
+                  new SessionLineItemOptions
+                  {
+                      PriceData=new SessionLineItemPriceDataOptions
+                      {
+                          Currency=currancy,
+                          UnitAmount=Convert.ToInt32(amount) * 100,
+                          ProductData=new SessionLineItemPriceDataProductDataOptions
+                          {
+                              Name="product name",
+                              Description="hello"
+                          }
+                      },
+                      Quantity=1
+                  }
+              },
+                Mode = "payment",
+                SuccessUrl = successUrl,
+                CancelUrl = cancelUrl
+
+
+            };
+            var service = new Stripe.Checkout.SessionService();
+            var session = service.Create(option);
+            SessionId = session.Id;
+            return Redirect(session.Url);
+        }     
+        
        
     }
 }

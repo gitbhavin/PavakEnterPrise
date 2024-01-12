@@ -30,6 +30,11 @@ namespace PVK.Application.Services.PickupLocation
             return await _pickuplocationProcessor.GetAllPickuplocationList();
         }
 
+        public async Task<PickupLocationResponse> GetpickuplocationbyId(string guidpickuplocation)
+        {
+            return await _pickuplocationProcessor.GetpickuplocationbyId(guidpickuplocation);
+        }
+
         public async Task<PickupLocationResponse> Updatepickuplocation(updatePickupLocation updatePickupLocation)
         {
             return await _pickuplocationProcessor.Updatepickuplocation(updatePickupLocation);
