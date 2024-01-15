@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Azure.Storage.Blobs;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using PVK.DTO.GallaryImage;
@@ -20,12 +21,13 @@ namespace PVK.Application.Services.GallaryImage
         private GallaryImageContext _gallaryImageContext;
         private ImageSettings _imageSettings;
         private GallaryContext _gallarContext;
-
-        public GallaryImageProcessor(GallaryImageContext gallaryImageContext, GallaryContext gallaryContext, IOptions<ImageSettings> imageSettings)
+        private readonly BlobServiceClient _blobServiceClient;
+        public GallaryImageProcessor(GallaryImageContext gallaryImageContext, GallaryContext gallaryContext, IOptions<ImageSettings> imageSettings, BlobServiceClient blobServiceClient)
         {
             this._gallaryImageContext = gallaryImageContext;
             this._gallarContext = gallaryContext;
             this._imageSettings = imageSettings.Value;
+            this._blobServiceClient = blobServiceClient;
         }
 
         public async Task<GallaryImageResponse> AddNewGallaryImage(IFormFile file, string guidGallaryId)
@@ -39,14 +41,15 @@ namespace PVK.Application.Services.GallaryImage
                     response.Message = "";
                     return response;
                 }
-                string uploadsFolder = Path.Combine(_imageSettings.ImageFolderPath);
-                string uniqueFileName = RandomNumber(1000, 50000) + "_" + file.FileName;
-                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                //string uploadsFolder = Path.Combine(_imageSettings.ImageFolderPath);
+                string uniqueFileName =  file.FileName;
+              //  string filePath = Path.Combine(uploadsFolder, uniqueFileName);
 
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    await file.CopyToAsync(fileStream);
-                }
+                var containerinstant = _blobServiceClient.GetBlobContainerClient("gallaryimage");
+
+                var blobinstant = containerinstant.GetBlobClient(file.FileName);
+
+                await blobinstant.UploadAsync(file.OpenReadStream());
 
                 var gallaryImage = new TblGallaryImage()
                 {

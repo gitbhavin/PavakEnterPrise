@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Azure.Storage.Blobs;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -20,11 +21,13 @@ namespace PVK.Application.Services.Category
         private readonly CategoryContext _categoryContext;
         private static IWebHostEnvironment _environment;
         private readonly ImageSettings _imageSettings;
-        public CategoryProcessor(CategoryContext categoryContext, IWebHostEnvironment environment, IOptions<ImageSettings> imageSettings)
+        private readonly BlobServiceClient _blobServiceClient;
+        public CategoryProcessor(CategoryContext categoryContext, IWebHostEnvironment environment, IOptions<ImageSettings> imageSettings, BlobServiceClient blobServiceClient)
         {
             this._categoryContext = categoryContext;
            _environment = environment;
             this._imageSettings = imageSettings.Value;
+            this._blobServiceClient = blobServiceClient;
         }
 
         public async Task<CategoryResponse> AddNewCategory(Addnewcategory addnewcategory)
@@ -312,21 +315,23 @@ namespace PVK.Application.Services.Category
             try
             {
 
-                if (file == null || file.Length == 0)
+                if (file.FileName == null || file.Length == 0)
                 {
                     response.Status = false;
                     response.Message = "";
                     return response;
                 }
 
-                string uploadsFolder = Path.Combine(_imageSettings.ImageFolderPath);
-                string uniqueFileName = RandomNumber(1000, 50000) + "_" + file.FileName;
-                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+               // string uploadsFolder = Path.Combine(_imageSettings.ImageFolderPath);
+                string uniqueFileName = file.FileName;
+              //  string filePath = Path.Combine(uploadsFolder, uniqueFileName);
 
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    await file.CopyToAsync(fileStream);
-                }
+                var containerinstant = _blobServiceClient.GetBlobContainerClient("categoryimages");
+
+                var blobinstant = containerinstant.GetBlobClient(file.FileName);
+
+                await blobinstant.UploadAsync(file.OpenReadStream());
+
                 var category = _categoryContext.TblCategories.Where(x => x.Guid_CategoryId == categoryid).FirstOrDefault();
 
                 if (category != null)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -103,6 +104,10 @@ namespace PavakEnterPrise
                     ValidateIssuer = false,
                     ValidateAudience = false
                 };
+            });
+            services.AddScoped(_ =>
+            {
+                return new BlobServiceClient(Configuration.GetConnectionString("AzureBlobStorage"));
             });
             services.AddCors(options =>
             {

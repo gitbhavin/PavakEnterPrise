@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Azure.Storage.Blobs;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using PVK.DTO.Product;
@@ -23,13 +24,14 @@ namespace PVK.Application.Services.Product
         private readonly CategoryContext _categoryContext;
         private readonly ImageSettings _imageSettings;
         private readonly BrandContext _brandContext;
-
-        public ProductProcessor(ProductContext productContext, IOptions<ImageSettings> imageSettings, CategoryContext categoryContext , BrandContext brandContext)
+        private readonly BlobServiceClient _blobServiceClient;
+        public ProductProcessor(ProductContext productContext, IOptions<ImageSettings> imageSettings, CategoryContext categoryContext , BrandContext brandContext, BlobServiceClient blobServiceClient)
         {
             this._productContext = productContext;
             this._categoryContext = categoryContext;
             this._brandContext = brandContext;
             this._imageSettings = imageSettings.Value;
+            this._blobServiceClient = blobServiceClient;
         }
         public async Task<ProductResponse> Addnewproduct(Addnewproduct addnewproduct)
         {
@@ -456,14 +458,16 @@ namespace PVK.Application.Services.Product
                     return response;
                 }
 
-                string uploadsFolder = Path.Combine(_imageSettings.ImageFolderPath);
-                string uniqueFileName = RandomNumber(1000, 50000) + "_" + file.FileName;
-                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                //string uploadsFolder = Path.Combine(_imageSettings.ImageFolderPath);
+                string uniqueFileName =  file.FileName;
+                //string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                var containerinstant = _blobServiceClient.GetBlobContainerClient("productimages");
 
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    await file.CopyToAsync(fileStream);
-                }
+                var blobinstant = containerinstant.GetBlobClient(file.FileName);
+
+                await blobinstant.UploadAsync(file.OpenReadStream());
+
+             
                 var product = _productContext.TblProducts.Where(x => x.Guid_ProductId == guidproductid).FirstOrDefault();
 
                 if (product != null)

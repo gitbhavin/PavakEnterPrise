@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Azure.Storage.Blobs;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using PVK.DTO.BannerImage;
@@ -20,12 +21,13 @@ namespace PVK.Application.Services.BannerImage
         private readonly BannerImageContext _bannerImageContext;
         private readonly BannerContext _bannerContext;
         private readonly ImageSettings _imageSettings;
-
-        public BannerImageProcessor(BannerImageContext bannerImageContext, BannerContext bannerContext, IOptions<ImageSettings> imageSettings)
+        private readonly BlobServiceClient _blobServiceClient;
+        public BannerImageProcessor(BannerImageContext bannerImageContext, BannerContext bannerContext, IOptions<ImageSettings> imageSettings, BlobServiceClient blobServiceClient)
         {
             this._bannerImageContext = bannerImageContext;
             this._imageSettings = imageSettings.Value;
             this._bannerContext = bannerContext;
+            this._blobServiceClient = blobServiceClient;
         }
         public async Task<BannerimageResponse> addbannerimage(IFormFile file, AddBannerimage addBannerimage)
         {
@@ -40,14 +42,15 @@ namespace PVK.Application.Services.BannerImage
                     return response;
                 }
 
-                string uploadsFolder = Path.Combine(_imageSettings.ImageFolderPath);
-                string uniqueFileName = RandomNumber(1000, 50000) + "_" + file.FileName;
-                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+               
+                string uniqueFileName = file.FileName;
+             
+                var containerinstant = _blobServiceClient.GetBlobContainerClient("bannerimages");
 
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    await file.CopyToAsync(fileStream);
-                }
+                var blobinstant = containerinstant.GetBlobClient(file.FileName);
+
+                await blobinstant.UploadAsync(file.OpenReadStream());
+
 
                 var bannerimage = new TblBannerImage()
                 {
