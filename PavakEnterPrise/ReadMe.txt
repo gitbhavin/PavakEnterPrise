@@ -1,1 +1,1 @@
-﻿server =148-72-232-60;database =PavakEnterPrize;User ID=pavakentprizedb;Password=qK2wu4$24;Persist Security Info=True;Integrated Security =false;
+
