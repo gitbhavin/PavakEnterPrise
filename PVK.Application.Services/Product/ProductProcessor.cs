@@ -1,4 +1,5 @@
-﻿using Azure.Storage.Blobs;
+﻿using Azure;
+using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -53,10 +54,15 @@ namespace PVK.Application.Services.Product
                         Short_Description = addnewproduct.Short_Description,
                         Is_InSale = addnewproduct.Is_InSale,
                         Guid_BrandId=addnewproduct.Guid_BrandId,
+                        Guid_UnitId=addnewproduct.Guid_UnitId,
+                        Tag=addnewproduct.Tag,
+                        Is_Organic=addnewproduct.Is_Organic,
+                        DiscountType=addnewproduct.DiscountType,
                         Full_Description=addnewproduct.Full_Description,
                         Price=Convert.ToDecimal(addnewproduct.Price),
                         Discount= Convert.ToDecimal(addnewproduct.Discount),
                         Available_Stock= Convert.ToDecimal(addnewproduct.Available_Stock),
+                        MaxPurchaseQty=Convert.ToDecimal(addnewproduct.MaxPurchaseQty),
                         Thumbnail_Image_Url=addnewproduct.Thumbnail_Image_Url,
                         Date_Inactive = null,
 
@@ -170,8 +176,12 @@ namespace PVK.Application.Services.Product
                         data.Discount = Convert.ToDecimal(item.Discount);
                         data.Available_Stock = Convert.ToDecimal(item.Available_Stock);
                         data.Guid_BrandId = item.Guid_BrandId;
-                        data.Thumbnail_Image_Url = item.Thumbnail_Image_Url;                       
-
+                        data.Thumbnail_Image_Url = item.Thumbnail_Image_Url;
+                        data.Guid_UnitId = item.Guid_UnitId;
+                        data.Is_Organic = item.Is_Organic;
+                        data.Tag = item.Tag;
+                        data.MaxPurchaseQty = item.MaxPurchaseQty;
+                        data.DiscountType = item.DiscountType;
                         data.Guid_SubCategoryId = item.Guid_SubCategoryId;
                         data.Guid_SubSubCategoryId = item.Guid_SubSubCategoryId;
                         if (category != null)
@@ -230,11 +240,15 @@ namespace PVK.Application.Services.Product
                         data.Full_Description = item.Full_Description;
                         data.Is_InSale = item.Is_InSale;
                         data.Price = item.Price;
+                        data.MaxPurchaseQty = item.MaxPurchaseQty;
                         data.Discount = item.Discount;
                         data.Available_Stock = item.Available_Stock;
                         data.Guid_BrandId = item.Guid_BrandId;
                         data.Thumbnail_Image_Url = item.Thumbnail_Image_Url;
-
+                        data.Guid_UnitId = item.Guid_UnitId;
+                        data.Is_Organic = item.Is_Organic;
+                        data.Tag = item.Tag;
+                        data.DiscountType = item.DiscountType;
                         data.Guid_SubCategoryId = item.Guid_SubCategoryId;
                         data.Guid_SubSubCategoryId = item.Guid_SubSubCategoryId;
                         if (category != null)
@@ -297,7 +311,11 @@ namespace PVK.Application.Services.Product
                         data.Available_Stock = item.Available_Stock;
                         data.Guid_BrandId = item.Guid_BrandId;
                         data.Thumbnail_Image_Url = item.Thumbnail_Image_Url;
-
+                        data.Guid_UnitId = item.Guid_UnitId;
+                        data.Tag = item.Tag;
+                        data.MaxPurchaseQty = item.MaxPurchaseQty;
+                        data.Is_Organic = item.Is_Organic;
+                        data.DiscountType = item.DiscountType;
                         data.Guid_SubCategoryId = item.Guid_SubCategoryId;
                         data.Guid_SubSubCategoryId = item.Guid_SubSubCategoryId;
                         if (category != null)
@@ -360,7 +378,11 @@ namespace PVK.Application.Services.Product
                         data.Available_Stock = item.Available_Stock;
                         data.Guid_BrandId = item.Guid_BrandId;
                         data.Thumbnail_Image_Url = item.Thumbnail_Image_Url;
-
+                        data.Guid_UnitId = item.Guid_UnitId;
+                        data.Tag = item.Tag;
+                        data.MaxPurchaseQty = item.MaxPurchaseQty;
+                        data.Is_Organic = item.Is_Organic;
+                        data.DiscountType = item.DiscountType;
                         data.Guid_SubCategoryId = item.Guid_SubCategoryId;
                         data.Guid_SubSubCategoryId = item.Guid_SubSubCategoryId;
                         if (category != null)
@@ -413,25 +435,25 @@ namespace PVK.Application.Services.Product
                     product.Price = Convert.ToDecimal(updateproduct.Price);
                     product.Discount = Convert.ToDecimal(updateproduct.Discount);
                     product.Available_Stock = Convert.ToDecimal(updateproduct.Available_Stock);
-
+                    product.Guid_UnitId = updateproduct.Guid_UnitId;
+                    product.Tag = updateproduct.Tag;
+                    product.DiscountType = updateproduct.DiscountType;
                     product.Date_Inactive = null;
-                   
-
+                    product.Is_Organic = updateproduct.Is_Organic;
+                    product.MaxPurchaseQty = Convert.ToDecimal(updateproduct.MaxPurchaseQty);
                     product.Date_Created = DateTime.Now;
                     product.Uid_Created = updateproduct.UserId;
 
 
-                };
-
+                }
 
                 _productContext.TblProducts.Update(product);
                 var result = await _productContext.SaveChangesAsync();
                 if (result > 0)
                 {
                     response.Status = true;
+                    response.guid = updateproduct.Guid_ProductId;
                     response.Message = "data updated successfully";
-
-
                 }
                 return response;
             }

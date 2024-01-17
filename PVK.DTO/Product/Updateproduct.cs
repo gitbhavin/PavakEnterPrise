@@ -17,12 +17,13 @@ namespace PVK.DTO.Product
         public double Price { get; set; }
         public string Guid_BrandId { get; set; }
         public bool Is_InSale { get; set; }
-
+        public string Guid_UnitId { get; set; }
         public double Discount { get; set; }
-
+        public string Tag { get; set; }
+        public string DiscountType { get; set; }
         public string Thumbnail_Image_Url { get; set; }
-
+        public bool Is_Organic { get; set; }
         public double Available_Stock { get; set; }
-
+        public decimal MaxPurchaseQty { get; set; }
     }
 }

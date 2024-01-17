@@ -89,6 +89,9 @@ using PVK.EFCore.Data.AddressScope;
 using PVK.Interfaces.Services.ContactUs;
 using PVK.Application.Services.ContactUs;
 using PVK.EFCore.Data.ContactUsScope;
+using PVK.Interfaces.Services.Unit;
+using PVK.Application.Services.Unit;
+using PVK.EFCore.Data.UnitScope;
 
 namespace PVK.Application.Services
 {
@@ -175,7 +178,8 @@ namespace PVK.Application.Services
             services.AddScoped<IContactUsProcessor, ContactUsProcessor>();
             services.AddScoped<IContactUsServices, ContactUsServices>();
 
-
+            services.AddScoped<IUnitProcessor, UnitProcessor>();
+            services.AddScoped<IUnitService, UnitService>();
 
         }
 
@@ -213,6 +217,8 @@ namespace PVK.Application.Services
             services.AddDbContext<GallaryContext>(options => options.UseSqlServer(connection).EnableDetailedErrors(EnableDetailedErrors));
             services.AddDbContext<AddressContext>(options => options.UseSqlServer(connection).EnableDetailedErrors(EnableDetailedErrors));
             services.AddDbContext<ContactUsContext>(options => options.UseSqlServer(connection).EnableDetailedErrors(EnableDetailedErrors));
+
+            services.AddDbContext<UnitContext>(options => options.UseSqlServer(connection).EnableDetailedErrors(EnableDetailedErrors));
 
 
 

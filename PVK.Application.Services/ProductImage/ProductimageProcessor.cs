@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Azure.Storage.Blobs;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using PVK.DTO.ProductImage;
@@ -20,11 +21,13 @@ namespace PVK.Application.Services.ProductImage
         private readonly ProductImageContext _productimageContext;
         private readonly ProductContext _productContext;
         private readonly ImageSettings _imageSettings;
-        public ProductimageProcessor(ProductImageContext productImageContext, ProductContext productContext, IOptions<ImageSettings> imageSettings)
+        private readonly BlobServiceClient _blobServiceClient;
+        public ProductimageProcessor(ProductImageContext productImageContext, ProductContext productContext, IOptions<ImageSettings> imageSettings, BlobServiceClient blobServiceClient)
         {
             this._productimageContext = productImageContext;
             this._imageSettings = imageSettings.Value;
             this._productContext = productContext;
+            this._blobServiceClient = blobServiceClient;
         }
 
         public async Task<ProdcutimageResponse> AddProductimages(IFormFile file, string productguid_id)
@@ -40,14 +43,15 @@ namespace PVK.Application.Services.ProductImage
                     return response;
                 }
 
-                string uploadsFolder = Path.Combine(_imageSettings.ImageFolderPath);
-                string uniqueFileName = RandomNumber(1000, 50000) + "_" + file.FileName;
-                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+               // string uploadsFolder = Path.Combine(_imageSettings.ImageFolderPath);
+                string uniqueFileName = file.FileName;
+                //string filePath = Path.Combine(uploadsFolder, uniqueFileName);
 
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    await file.CopyToAsync(fileStream);
-                }
+                var containerinstant = _blobServiceClient.GetBlobContainerClient("productimages");
+
+                var blobinstant = containerinstant.GetBlobClient(file.FileName);
+
+                await blobinstant.UploadAsync(file.OpenReadStream());
 
                 var productimage = new TblProductImage()
                 {

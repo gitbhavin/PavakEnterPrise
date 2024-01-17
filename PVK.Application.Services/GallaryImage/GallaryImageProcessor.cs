@@ -1,4 +1,5 @@
 ﻿using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -94,9 +95,12 @@ namespace PVK.Application.Services.GallaryImage
             {
                 var result = await _gallaryImageContext.TblGallaryImages.Where(x => x.Date_Inactive == null && x.GuidGallaryid == giudGallaryId).ToListAsync();
                 if(result != null)
-                {
-                    foreach(var item in result)
-                    {
+                {                  
+                   
+
+                    foreach (var item in result)
+                    {                      
+
                         var gallary_tbl = _gallarContext.TblGallaries.Where(x => x.GuidGallaryId == item.GuidGallaryid).FirstOrDefault();
 
                         GallaryImageData data = new GallaryImageData();

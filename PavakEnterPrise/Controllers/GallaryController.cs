@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace PVK.API.Controllers
 {
-    [Authorize]
+   
     [Route("api/[controller]")]
     [ApiController]
     public class GallaryController : ControllerBase

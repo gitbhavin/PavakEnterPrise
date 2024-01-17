@@ -1,11 +1,12 @@
-﻿using PVK.EFCore.Data.OrderDetailscope;
+﻿using PVK.EFCore.Data.BaseScope;
+using PVK.EFCore.Data.OrderDetailscope;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace PVK.DTO.Order
 {
-    public class Orderdata
+    public class Orderdata : BaseEntity
     {
         public string Guid_OrderId { get; set; }
         public string Guid_UserId { get; set; }

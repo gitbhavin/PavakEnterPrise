@@ -144,6 +144,7 @@ namespace PVK.Application.Services.Order
                         data.Total = Convert.ToDecimal(item.Total);
                         data.Tax = Convert.ToDecimal(item.Tax);
                         data.Discount = Convert.ToDecimal(item.Discount);
+                        data.Date_Created = item.Date_Created;
                         data.orderDetails =await _orderDetailContext.TblOrderDetails.Where(o => o.Guid_OrderId == item.Guid_OrderId).ToListAsync();
 
 
