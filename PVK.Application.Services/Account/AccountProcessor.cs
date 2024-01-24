@@ -161,7 +161,7 @@ namespace PVK.Application.Services.Account
 
         public void sendemail(string email, string fname, string lname)
         {
-            string apiKey = "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";
+           
 
             // Initialize the SendGrid client
             var client = new SendGridClient(apiKey);
