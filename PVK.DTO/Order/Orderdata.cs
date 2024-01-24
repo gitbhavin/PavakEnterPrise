@@ -1,5 +1,6 @@
 ﻿using PVK.EFCore.Data.BaseScope;
 using PVK.EFCore.Data.OrderDetailscope;
+using PVK.EFCore.Data.ProductScope;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,8 +13,8 @@ namespace PVK.DTO.Order
         public string Guid_UserId { get; set; }
 
         public string orderno { get; set; }
-
-
+        public string statebilling { get; set; }
+        public string state { get; set; }
         public string emailid { get; set; }
 
         //filed for shipping address
@@ -71,5 +72,7 @@ namespace PVK.DTO.Order
 
 
         public List<TblOrderDetail> orderDetails { get; set; }
+
+      
     }
 }

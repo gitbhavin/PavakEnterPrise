@@ -1,12 +1,14 @@
 ﻿using PVK.EFCore.Data.BaseScope;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace PVK.EFCore.Data.ProductScope
 {
     public class TblProduct : BaseEntity
     {
+        
         public string Guid_ProductId { get; set; }
         public string ProductName { get; set; }
         public string Guid_CategoryId { get; set; }
@@ -25,6 +27,7 @@ namespace PVK.EFCore.Data.ProductScope
         public string DiscountType { get; set; }
         public decimal Discount { get; set; }
 
+        public decimal TaxPercentage { get; set; }
         public string Thumbnail_Image_Url { get; set; }
 
         public decimal Available_Stock { get; set; }

@@ -19,6 +19,7 @@ namespace PVK.DTO.Product
         public bool Is_InSale { get; set; }
         public string Guid_UnitId { get; set; }
         public double Discount { get; set; }
+        public decimal TaxPercentage { get; set; }
         public string Tag { get; set; }
         public string DiscountType { get; set; }
         public string Thumbnail_Image_Url { get; set; }

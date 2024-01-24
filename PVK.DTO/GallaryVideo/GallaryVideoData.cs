@@ -9,6 +9,8 @@ namespace PVK.DTO.GallaryVideo
     {
         public string GuidGallaryvideoid { get; set; }
         public string GuidGallaryid { get; set; }
+
+        public string Gallaryname { get; set; }
         public string videourl { get; set; }
         public bool IsPrimery { get; set; }
     }

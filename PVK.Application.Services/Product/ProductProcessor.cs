@@ -53,13 +53,14 @@ namespace PVK.Application.Services.Product
                         Guid_SubSubCategoryId = addnewproduct.Guid_SubSubCategoryId,
                         Short_Description = addnewproduct.Short_Description,
                         Is_InSale = addnewproduct.Is_InSale,
-                        Guid_BrandId=addnewproduct.Guid_BrandId,
-                        Guid_UnitId=addnewproduct.Guid_UnitId,
-                        Tag=addnewproduct.Tag,
-                        Is_Organic=addnewproduct.Is_Organic,
-                        DiscountType=addnewproduct.DiscountType,
-                        Full_Description=addnewproduct.Full_Description,
-                        Price=Convert.ToDecimal(addnewproduct.Price),
+                        Guid_BrandId = addnewproduct.Guid_BrandId,
+                        Guid_UnitId = addnewproduct.Guid_UnitId,
+                        Tag = addnewproduct.Tag,
+                        Is_Organic = addnewproduct.Is_Organic,
+                        DiscountType = addnewproduct.DiscountType,
+                        Full_Description = addnewproduct.Full_Description,
+                        Price = Convert.ToDecimal(addnewproduct.Price),
+                        TaxPercentage = Convert.ToDecimal(addnewproduct.TaxPercentage),
                         Discount= Convert.ToDecimal(addnewproduct.Discount),
                         Available_Stock= Convert.ToDecimal(addnewproduct.Available_Stock),
                         MaxPurchaseQty=Convert.ToDecimal(addnewproduct.MaxPurchaseQty),
@@ -181,6 +182,7 @@ namespace PVK.Application.Services.Product
                         data.Is_Organic = item.Is_Organic;
                         data.Tag = item.Tag;
                         data.MaxPurchaseQty = item.MaxPurchaseQty;
+                        data.TaxPercentage = item.TaxPercentage;
                         data.DiscountType = item.DiscountType;
                         data.Guid_SubCategoryId = item.Guid_SubCategoryId;
                         data.Guid_SubSubCategoryId = item.Guid_SubSubCategoryId;
@@ -248,6 +250,7 @@ namespace PVK.Application.Services.Product
                         data.Guid_UnitId = item.Guid_UnitId;
                         data.Is_Organic = item.Is_Organic;
                         data.Tag = item.Tag;
+                        data.TaxPercentage = item.TaxPercentage;
                         data.DiscountType = item.DiscountType;
                         data.Guid_SubCategoryId = item.Guid_SubCategoryId;
                         data.Guid_SubSubCategoryId = item.Guid_SubSubCategoryId;
@@ -316,6 +319,7 @@ namespace PVK.Application.Services.Product
                         data.MaxPurchaseQty = item.MaxPurchaseQty;
                         data.Is_Organic = item.Is_Organic;
                         data.DiscountType = item.DiscountType;
+                        data.TaxPercentage = item.TaxPercentage;
                         data.Guid_SubCategoryId = item.Guid_SubCategoryId;
                         data.Guid_SubSubCategoryId = item.Guid_SubSubCategoryId;
                         if (category != null)
@@ -381,6 +385,7 @@ namespace PVK.Application.Services.Product
                         data.Guid_UnitId = item.Guid_UnitId;
                         data.Tag = item.Tag;
                         data.MaxPurchaseQty = item.MaxPurchaseQty;
+                        data.TaxPercentage = item.TaxPercentage;
                         data.Is_Organic = item.Is_Organic;
                         data.DiscountType = item.DiscountType;
                         data.Guid_SubCategoryId = item.Guid_SubCategoryId;
@@ -438,6 +443,7 @@ namespace PVK.Application.Services.Product
                     product.Guid_UnitId = updateproduct.Guid_UnitId;
                     product.Tag = updateproduct.Tag;
                     product.DiscountType = updateproduct.DiscountType;
+                    product.TaxPercentage = Convert.ToDecimal(updateproduct.TaxPercentage);
                     product.Date_Inactive = null;
                     product.Is_Organic = updateproduct.Is_Organic;
                     product.MaxPurchaseQty = Convert.ToDecimal(updateproduct.MaxPurchaseQty);

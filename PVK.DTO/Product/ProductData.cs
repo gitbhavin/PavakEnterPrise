@@ -19,7 +19,7 @@ namespace PVK.DTO.Product
         public string Full_Description { get; set; }
         public decimal Price { get; set; }
         public string Guid_BrandId { get; set; }
-
+        public decimal TaxPercentage { get; set; }
         public string BrandName { get; set; }
         public bool Is_InSale { get; set; }
         public bool Is_Organic { get; set; }

@@ -23,5 +23,7 @@ namespace PVK.Interfaces.Services.Product
         Task<ProductResponse> GetProductbysubCategoryId(string Guid_SubCategoryId);
 
         Task<ProductResponse> UploadImage(IFormFile file, string categoryid);
+
+       
     }
 }

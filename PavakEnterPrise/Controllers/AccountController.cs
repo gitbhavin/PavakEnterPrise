@@ -36,6 +36,13 @@ namespace PVK.API.Controllers
         {
             return await _accountservice.GetUserInfo(userid);
         }
+        [HttpGet]
+        [Route("GetAllUser")]
+
+        public async Task<userresponse> getalluser()
+        {
+            return await _accountservice.getallusers();
+        }
 
         [HttpPost("login")]
         public async Task<AccountResponse> Login(LoginRequest loginRequest)
@@ -50,14 +57,15 @@ namespace PVK.API.Controllers
                     return await _tokenservice.CreateJwtTokens(user, Guid.NewGuid().ToString().Replace("-", ""));
 
                 }
-                response.Status = false;
+                response.Status = true;
                 
                 return response;
 
             }
             catch(Exception ex)
             {
-                throw ex;
+                response.Status = false;                
+                return response;
             }
            }
     }

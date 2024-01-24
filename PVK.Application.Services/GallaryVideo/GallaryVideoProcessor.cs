@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PVK.DTO.GallaryVideo;
+using PVK.EFCore.Data.GallaryScope;
 using PVK.EFCore.Data.GallaryVideoScope;
 using PVK.Interfaces.Services.GallaryVideo;
 using System;
@@ -13,10 +14,11 @@ namespace PVK.Application.Services.GallaryVideo
     public class GallaryVideoProcessor: IGallaryVideoProcessor
     {
         private GallaryVideoContext _gallaryVideoContext;
-
-        public GallaryVideoProcessor(GallaryVideoContext gallaryVideoContext)
+        private GallaryContext _gallaryContext;
+        public GallaryVideoProcessor(GallaryVideoContext gallaryVideoContext, GallaryContext gallaryContext)
         {
             this._gallaryVideoContext = gallaryVideoContext;
+            this._gallaryContext = gallaryContext;
         }
 
         public async Task<GallaryVideoResponse> AddNewGallaryVideo(AddGallaryVideoData addGallaryVideoData)
@@ -85,7 +87,7 @@ namespace PVK.Application.Services.GallaryVideo
                         data.UserId = item.Uid_Created;
                         data.videourl = item.videourl;
                         data.IsPrimery = item.IsPrimery;
-
+                        data.Gallaryname = _gallaryContext.TblGallaries.Where(g => g.GuidGallaryId == item.GuidGallaryid).FirstOrDefault()?.Name;
                         response.gallaryVideoDatas.Add(data);
                     }
                     response.Status = true;

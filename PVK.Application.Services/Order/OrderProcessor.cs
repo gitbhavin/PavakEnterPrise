@@ -2,6 +2,8 @@
 using PVK.DTO.Order;
 using PVK.EFCore.Data.OrderDetailscope;
 using PVK.EFCore.Data.OrderScope;
+using PVK.EFCore.Data.ProductScope;
+using PVK.EFCore.Data.UnitScope;
 using PVK.Interfaces.Services.Order;
 using System;
 using System.Collections.Generic;
@@ -14,12 +16,16 @@ namespace PVK.Application.Services.Order
     public class OrderProcessor : IOrderProcessor
     {
         private readonly OrderContext _orderContext;
+        private readonly ProductContext _productContext;
 
         private readonly OrderDetailContext _orderDetailContext;
-        public OrderProcessor(OrderContext orderContext, OrderDetailContext orderDetailContext)
+        private readonly UnitContext _unitContext;
+        public OrderProcessor(OrderContext orderContext,UnitContext unitContext, OrderDetailContext orderDetailContext, ProductContext productContext)
         {
+            this._unitContext = unitContext;
             this._orderContext = orderContext;
             this._orderDetailContext = orderDetailContext;
+            this._productContext = productContext;
         }
         public async Task<OrderResponse> AddOrder(AddOrder addOrder)
         {
@@ -34,10 +40,11 @@ namespace PVK.Application.Services.Order
                     orderno = "OD" + count.ToString(),
                     Guid_UserId = addOrder.Guid_UserId,
                     Guid_PickupLocationId = addOrder.Guid_PickupLocationId,
-                    Discount =Convert.ToDecimal(addOrder.Discount),
-                    name=addOrder.name,
-                    emailid=addOrder.emailid,
-                    address=addOrder.address,
+                    Discount = Convert.ToDecimal(addOrder.Discount),
+                    name = addOrder.name,
+                    emailid = addOrder.emailid,
+                    address = addOrder.address,
+                    state = addOrder.state,
                     city=addOrder.city,
                     zipcode=addOrder.zipcode,
                     phoneno=addOrder.phoneno,
@@ -122,6 +129,7 @@ namespace PVK.Application.Services.Order
                         data.invoiceno = item.invoiceno;
                         data.phoneno = item.phoneno;
                         data.status = item.status;
+                        data.state = item.state;
                         data.address = item.address;
                         data.shippingCharge = item.shippingCharge;
                         data.zipcode = item.zipcode;
@@ -179,20 +187,20 @@ namespace PVK.Application.Services.Order
 
                 if (result != null)
                 {
-                    foreach (var item in result)
-                    {
-                        Orderdata data = new Orderdata();
-                        data.Guid_OrderId = item.Guid_OrderId;
-                        data.Guid_PickupLocationId = item.Guid_PickupLocationId;
-                        data.Guid_UserId = item.Guid_UserId;
-                        data.Total = Convert.ToDecimal(item.Total);
-                        data.Tax = Convert.ToDecimal(item.Tax);
-                        data.Discount = Convert.ToDecimal(item.Discount);
-                        data.orderDetails = await _orderDetailContext.TblOrderDetails.Where(o => o.Guid_OrderId == item.Guid_OrderId).ToListAsync();
-
-
-                        response.orderdatas.Add(data);
-                    }
+                    //foreach (var item in result)
+                    //{
+                    //    Orderdata data = new Orderdata();
+                    //    data.Guid_OrderId = item.Guid_OrderId;
+                    //    data.Guid_PickupLocationId = item.Guid_PickupLocationId;
+                    //    data.Guid_UserId = item.Guid_UserId;
+                    //    data.Total = Convert.ToDecimal(item.Total);
+                    //    data.Tax = Convert.ToDecimal(item.Tax);
+                    //    data.Discount = Convert.ToDecimal(item.Discount);
+                    //    data.name = item.name;
+                    //    data.callNumber = item.callNumber;
+                    //    response.orderdatas.Add(data);
+                    //}
+                    response.orderList = result;
                     response.Message = "Success!";
                     response.Status = true;
                 }
@@ -275,9 +283,53 @@ namespace PVK.Application.Services.Order
                         data.Tax = Convert.ToDecimal(item.Tax);
                         data.Discount = Convert.ToDecimal(item.Discount);
                         data.orderDetails = await _orderDetailContext.TblOrderDetails.Where(o => o.Guid_OrderId == item.Guid_OrderId).ToListAsync();
-
+                      
 
                         response.orderdatas.Add(data);
+                    }
+                    response.Message = "Success!";
+                    response.Status = true;
+                }
+                else
+                {
+                    response.Message = "No Record Found!";
+                    response.Status = true;
+                }
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+                response.Status = false;
+
+                return response;
+            }
+        }
+
+        public async Task<OrderResponse> GetOrderDetails(string GuidOrderid)
+        {
+            OrderResponse response = new OrderResponse();
+
+            try
+            {
+                var result = await _orderDetailContext.TblOrderDetails.Where(x => x.Date_Inactive == null && x.Guid_OrderId == GuidOrderid).ToListAsync();
+
+                if (result != null)
+                {
+                    foreach (var item in result)
+                    {
+                        orderdetaildata data = new orderdetaildata();
+                        data.Guid_OrderId = item.Guid_OrderId;
+                        data.Guid_OrderDetailsId = item.Guid_OrderDetailsId;
+                        data.Guid_ProductId = item.Guid_ProductId;
+                        data.Price = item.Price;
+                        data.Totalprice = Convert.ToDecimal(item.Totalprice);
+                        data.Quantity = item.Quantity;
+                        data.Discount_Price = Convert.ToDecimal(item.Discount_Price);
+                        data.products = await _productContext.TblProducts.Where(p => p.Guid_ProductId == item.Guid_ProductId).ToListAsync();
+                       
+
+                        response.orderdetaildatas.Add(data);
                     }
                     response.Message = "Success!";
                     response.Status = true;

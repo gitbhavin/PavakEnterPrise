@@ -19,5 +19,7 @@ namespace PVK.Interfaces.Services.Order
         Task<OrderResponse> GetOrderbyId(string GuidOrderid);
         Task<OrderResponse> GetOrderbyUserId(string Guiduserid);
         Task<OrderResponse> GetOrderbypickupId(string Guidpickupid);
+
+        Task<OrderResponse> GetOrderDetails(string GuidOrderid);
     }
 }

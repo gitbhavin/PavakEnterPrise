@@ -17,7 +17,7 @@ namespace PVK.DTO.Order
 
         //filed for shipping address
         public string name { get; set; }
-
+        public string state { get; set; }
         public string address { get; set; }
         public string city { get; set; }
         public string zipcode { get; set; }
@@ -26,7 +26,7 @@ namespace PVK.DTO.Order
 
         //filed for billing address
         public string namebilling { get; set; }
-
+        public string statebilling { get; set; }
         public string addressbilling { get; set; }
         public string citybilling { get; set; }
         public string zipcodebilling { get; set; }

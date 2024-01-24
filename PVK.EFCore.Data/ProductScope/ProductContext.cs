@@ -20,6 +20,9 @@ namespace PVK.EFCore.Data.ProductScope
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+
+         
             modelBuilder.Entity<TblProduct>(
                 entity =>
                 {

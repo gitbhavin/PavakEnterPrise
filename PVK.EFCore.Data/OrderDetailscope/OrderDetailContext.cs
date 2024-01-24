@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using PVK.EFCore.Data.ProductScope;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -16,10 +17,13 @@ namespace PVK.EFCore.Data.OrderDetailscope
 
         }
         public virtual DbSet<TblOrderDetail> TblOrderDetails { get; set; }
-
+     
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+           
+
             modelBuilder.Entity<TblOrderDetail>(
                 entity =>
                 {
@@ -80,7 +84,13 @@ namespace PVK.EFCore.Data.OrderDetailscope
 
                 });
 
+           
+           
 
-        }
+        
+    }
+
+
+
     }
 }

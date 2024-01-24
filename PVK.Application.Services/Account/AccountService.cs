@@ -19,6 +19,11 @@ namespace PVK.Application.Services.Account
             this._accountProcessor = accountProcessor;
         }
 
+        public async Task<userresponse> getallusers()
+        {
+            return await _accountProcessor.getallusers();
+        }
+
         public async Task<TblUser> GetUserByEmailOrMobile(LoginRequest loginRequest)
         {
             return await _accountProcessor.GetUserByEmailOrMobile(loginRequest);

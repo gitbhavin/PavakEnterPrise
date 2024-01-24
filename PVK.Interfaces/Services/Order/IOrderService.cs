@@ -1,4 +1,5 @@
 ﻿using PVK.DTO.Order;
+using PVK.DTO.Product;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -21,6 +22,8 @@ namespace PVK.Interfaces.Services.Order
         Task<OrderResponse> GetOrderbyUserId(string Guiduserid);
 
         Task<OrderResponse> GetOrderbypickupId(string Guidpickupid);
+
+        Task<OrderResponse> GetOrderDetails(string GuidOrderid);
 
     }
 }

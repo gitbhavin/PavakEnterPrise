@@ -21,6 +21,7 @@ namespace PVK.DTO.Product
         public string Tag { get; set; }
         public string DiscountType { get; set; }
         public double Discount { get; set; }
+        public decimal TaxPercentage { get; set; }
         public string Thumbnail_Image_Url { get; set; }
         public double Available_Stock { get; set; }
         public decimal MaxPurchaseQty { get; set; }

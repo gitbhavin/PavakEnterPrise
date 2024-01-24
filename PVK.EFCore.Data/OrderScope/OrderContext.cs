@@ -40,7 +40,8 @@ namespace PVK.EFCore.Data.OrderScope
 
                     entity.Property(e => e.Tax)
                     .HasColumnName("Tax")
-                    .HasColumnType("double");
+                    .HasColumnType("double")
+                    ;
 
                     entity.Property(e => e.Total)
                    .HasColumnName("Total")

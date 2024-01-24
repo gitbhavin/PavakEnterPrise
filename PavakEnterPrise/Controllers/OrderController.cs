@@ -57,6 +57,12 @@ namespace PVK.API.Controllers
             return await _service.GetOrderbyId(guidorderid);
         }
 
+        [HttpPost("GetOrderDetailbyId")]
+        public async Task<OrderResponse> GetOrderDetailbyId(string guidorderid)
+        {
+            return await _service.GetOrderDetails(guidorderid);
+        }
+
         [HttpPost("GetOrderbyPickuporderId")]
         public async Task<OrderResponse> GetOrderbypickupId(string guidpickuporderid)
         {
@@ -72,8 +78,8 @@ namespace PVK.API.Controllers
         public IActionResult checkoutsession(string amount)
         {
             var currancy = "usd";
-            var successUrl = "https://www.leymonn.com/";
-            var cancelUrl = "https://www.leymonn.com/";
+            var successUrl = "https://pavakadmin.azurewebsites.net";
+            var cancelUrl = "https://pavakadmin.azurewebsites.net";
 
             StripeConfiguration.ApiKey = _stripeSettings.SecretKey;
 
@@ -90,8 +96,8 @@ namespace PVK.API.Controllers
                           UnitAmount=Convert.ToInt32(amount) * 100,
                           ProductData=new SessionLineItemPriceDataProductDataOptions
                           {
-                              Name="product name",
-                              Description="hello"
+                              Name="PavakEnterPrise"
+                             
                           }
                       },
                       Quantity=1

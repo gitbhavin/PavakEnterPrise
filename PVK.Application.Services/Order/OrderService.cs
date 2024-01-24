@@ -44,6 +44,11 @@ namespace PVK.Application.Services.Order
             return await _orderProcessor.GetOrderbyUserId(Guiduserid);
         }
 
+        public async Task<OrderResponse> GetOrderDetails(string GuidOrderid)
+        {
+            return await _orderProcessor.GetOrderDetails(GuidOrderid);
+        }
+
         public async Task<OrderResponse> UpdateOrder(Updateorder updateorder)
         {
             return await _orderProcessor.UpdateOrder(updateorder);
